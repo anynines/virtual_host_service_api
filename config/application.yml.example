@@ -1,0 +1,30 @@
+development:
+  api_keys:
+    customer_partal: ''
+  amqp:
+    host: '127.0.0.1'
+    port: 5672
+    user: 'guest'
+    pass: 'guest'
+    channel: 'virtual_host_jobs'
+
+production:
+  api_keys:
+    customer_partal: ''
+  amqp:
+    host: '127.0.0.1'
+    port: 5672
+    user: 'guest'
+    pass: 'guest'
+    channel: 'virtual_host_jobs'
+    
+test:
+  api_keys:
+    customer_partal: ''
+  amqp:
+    host: '127.0.0.1'
+    port: 5672
+    user: 'guest'
+    pass: 'guest'
+    channel: 'virtual_host_jobs'
+
