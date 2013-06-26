@@ -60,7 +60,7 @@ class VHost < ActiveRecord::Base
     
     AMQP.start(APP_CONFIG['amqp']) do |connection|
       channel = AMQP::Channel.new(connection)
-      exchange = channel.fanout(APP_CONFIG['amqp']['channel'])
+      exchange = channel.fanout(APP_CONFIG['amqp_channel'])
       
       exchange.publish(attributes.to_json, :persistent => true) do
         connection.close { EventMachine.stop }
