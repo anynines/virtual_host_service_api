@@ -1,0 +1,19 @@
+== Virtual Host Service
+
+This API provides a endpoint to manage some virtual hosts configured in a webserver configuration (apache or nginx).
+
+A virtual host makes it possible to handle more than one Universal Resource Identifiers (=> more domains) by one machine.
+Further it is possible to setup a ssl certificate for each virtual host so that the host is reachable by the https protocol.
+
+Due to reliability it might be necessary to run more than one webserver in a cluster. In this case each config of each webserver
+needs to be updated when a new virtual host ist added/deleted. To handle this requirement a worker perfomrs the webserver
+configuration update. For each webserver a seperatly worker needs to be setted up which subscribes the api events.
+
+= Setup the workers
+
+= Setup the API
+
+= API
+
+
+
