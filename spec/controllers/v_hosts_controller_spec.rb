@@ -63,6 +63,19 @@ describe VHostsController do
           
         end
         
+        it 'should save the vHost and the server aliases' do
+          
+          attr = FactoryGirl.attributes_for(:valid_v_host, :server_aliases => "alias.de,alias.com,alias.com")
+          
+          post :create, {
+            :v_host => attr,
+            :access_token => api_key
+          }
+          
+          VHost.first.server_aliases.should eq attr[:server_aliases]
+          
+        end
+        
       end
       
       context 'wiht invalid params' do
