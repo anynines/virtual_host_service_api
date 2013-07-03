@@ -97,6 +97,40 @@ describe VHost do
       end
     end
     
+    context 'with valid server aliases' do
+      it 'should save the aliases' do
+        vhost = FactoryGirl.build(:valid_v_host, :server_aliases => "alias.de,alias.com,alias.org")
+        vhost.save.should be true
+        vhost.errors.should be_empty
+      end
+      
+      it 'should save the alias' do
+        vhost = FactoryGirl.build(:valid_v_host, :server_aliases => "alias.de")
+        vhost.save.should be true
+        vhost.errors.should be_empty
+      end
+    end
+    
+    context 'with invalid server aliases' do
+      it 'should detect that "alias.de,a" is a invalid server aliases list' do
+        vhost = FactoryGirl.build(:valid_v_host, :server_aliases => "alias.de,a")
+        vhost.save
+        vhost.errors[:server_aliases].first.should eq 'is invalid'
+      end
+      
+      it 'should detect that "alias.de, " is a invalid server aliases list' do
+        vhost = FactoryGirl.build(:valid_v_host, :server_aliases => "alias.de, ")
+        vhost.save
+        vhost.errors[:server_aliases].first.should eq 'is invalid'
+      end
+      
+      it 'should detect that "alias.de alias.com" is a invalid server aliases list' do
+        vhost = FactoryGirl.build(:valid_v_host, :server_aliases => "alias.de alias.com")
+        vhost.save
+        vhost.errors[:server_aliases].first.should eq 'is invalid'
+      end
+    end
+    
   end
     
 end

@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20130625072954) do
     t.string   "ssl_ca_certificate"
     t.string   "ssl_key"
     t.string   "server_name"
+    t.string   "server_aliases"
     t.string   "organization_guid"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false

@@ -5,6 +5,7 @@ class CreateVHosts < ActiveRecord::Migration
       t.string :ssl_ca_certificate
       t.string :ssl_key
       t.string :server_name
+      t.string :server_aliases
       
       t.string :organization_guid
 
