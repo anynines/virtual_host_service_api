@@ -79,7 +79,7 @@ class VHost < ActiveRecord::Base
         :server_name => server_name
       }
       
-      exchange.publish(payload, :persistent => true) do
+      exchange.publish(payload.to_json, :persistent => true) do
         connection.close { EventMachine.stop }
       end
     end
