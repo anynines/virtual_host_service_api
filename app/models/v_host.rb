@@ -25,6 +25,10 @@ class VHost < ActiveRecord::Base
     push_to_amqp if super
   end
   
+  def destroy
+    push_destroy_to_amqp if super
+  end
+  
   protected
   
   def must_have_a_valid_list_of_server_aliases
@@ -63,6 +67,28 @@ class VHost < ActiveRecord::Base
       cert_modulo = OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/modulus:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
       errors[:ssl_key] = 'must match the ssl certificate' unless pkey_modulo == cert_modulo
     end
+  end
+  
+  def push_destroy_to_amqp
+    AMQP.start(APP_CONFIG['amqp']) do |connection|
+      channel = AMQP::Channel.new(connection)
+      exchange = channel.fanout(APP_CONFIG['amqp_channel'])
+      
+      payload = {
+        :action => 'delete',
+        :server_name => server_name
+      }
+      
+      exchange.publish(payload, :persistent => true) do
+        connection.close { EventMachine.stop }
+      end
+    end
+    
+    return true
+    
+  rescue
+    errors[:amqp_connection] << 'cannot be established'
+    return false 
   end
   
   def push_to_amqp

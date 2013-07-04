@@ -105,6 +105,18 @@ describe VHostsController do
     end
     
   end
+  
+  describe 'DELETE destroy_by_server_name' do
+    
+    context 'with a valid api key' do
+      it 'should delete the vhost' do
+        vhost = FactoryGirl.create(:valid_v_host)
+        delete :destroy_by_server_name, {:access_token => api_key, :server_name => vhost.server_name}
+        VHost.all.count.should be 0
+      end
+    end
+    
+  end
 
   describe 'GET by_organization' do
     
@@ -125,7 +137,6 @@ describe VHostsController do
           JSON.parse(response.body).count.should be 3
           
         end
-        
       
       end
     

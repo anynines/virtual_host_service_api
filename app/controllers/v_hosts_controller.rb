@@ -12,6 +12,18 @@ class VHostsController < ApplicationController
     
   end
   
+  def destroy_by_server_name
+    
+    vhost = VHost.where(:server_name => params['server_name']).first
+    
+    if vhost.destroy
+      render :json => 'ok'
+    else
+      render :json => {:errors => 'error on deleting vhost'}, :status => 422
+    end
+    
+  end
+  
   def by_organization
     render :json => VHost.where(:organization_guid => params['guid'])
   end

@@ -50,7 +50,7 @@ describe VHost do
     end
     
     context 'with an invalid ssl ca certificate' do
-      it 'it should trigger an error' do
+      it 'should trigger an error' do
         vhost = FactoryGirl.build(:v_host_with_invalid_ssl_ca_certificate)
         vhost.save
         vhost.errors[:ssl_ca_certificate].first.should eq 'is invalid'
@@ -131,6 +131,27 @@ describe VHost do
       end
     end
     
+  end
+  
+  describe '#destroy' do
+    
+    context 'with a existing virtual host' do
+    
+      it 'should delete the virtual host from the database' do
+        vhost = FactoryGirl.build(:valid_v_host)
+        vhost.save
+        vhost.destroy
+        VHost.all.count.should be 0
+      end
+      
+      it 'should push the delete command to amqp' do 
+        vhost = FactoryGirl.build(:valid_v_host)
+        vhost.expects(:push_destroy_to_amqp)
+        vhost.destroy
+      end
+      
+    end
+  
   end
     
 end
