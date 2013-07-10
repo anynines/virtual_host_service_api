@@ -87,7 +87,9 @@ class VHost < ActiveRecord::Base
   end
 
   def server_name_from_ssl_certificate
-    OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/^\s*Subject\: .*CN=(.*)/)[1]
+    OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/^\s*Subject\: .*CN=(.*)/)[1].split('/').first
+  rescue OpenSSL::X509::CertificateError
+    nil
   end
 
   def server_aliases_from_ssl_certificate
