@@ -96,6 +96,39 @@ describe VHost do
         vhost.errors[:server_name].first.should eq 'is invalid'
       end
     end
+
+    context 'with not specified server name' do
+      context 'with a wildcard certificate' do
+        it 'should set the server name from the certificate' do
+          vhost = FactoryGirl.build(:v_host_with_wildcard_certificate)
+          vhost.server_name.should eq '*.railshoster.de' 
+        end
+        
+        it 'should set a server alias to the host without a wildcard' do
+          vhost = FactoryGirl.build(:v_host_with_wildcard_certificate)
+          vhost.server_aliases.should eq 'railshoster.de'
+        end
+      end
+      
+      context 'with a simple certificate (one subject alt name)' do
+        it 'should detect the server name from the certificate' do
+          vhost = FactoryGirl.build(:v_host_with_one_subject_alt_name)
+          vhost.server_name.should eq 'mail.kundenportal.railshoster.de'
+        end
+      end
+        
+      context 'with a www certificate' do
+        it 'should detect the server name from the certificate' do
+           vhost = FactoryGirl.build(:v_host_with_www_alt_name) 
+           vhost.server_name.should eq 'www.fancyerp.com'       
+        end
+        
+        it 'should set a server alias to the host without www prefix ' do
+          vhost = FactoryGirl.build(:v_host_with_www_alt_name) 
+          vhost.server_aliases.should eq 'fancyerp.com'
+        end
+      end
+    end
     
     context 'with valid server aliases' do
       it 'should save the aliases' do

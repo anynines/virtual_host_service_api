@@ -1,9 +1,10 @@
+require 'pp'
 class VHostsController < ApplicationController
   
   def create
     
     vhost = VHost.new(params['v_host'])
-    
+
     if vhost.save
       render :json => vhost
     else

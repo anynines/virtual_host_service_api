@@ -21,12 +21,29 @@ class VHost < ActiveRecord::Base
            :must_have_a_well_formatted_ssl_key,
            :private_key_must_match_ssl_certificate
   
-  def save 
+  def save
     push_to_amqp if super
   end
   
   def destroy
     push_destroy_to_amqp if super
+  end
+
+  def server_name
+
+    if super.blank?
+      self.server_name = server_name_from_ssl_certificate
+    end
+
+    return super
+  end
+
+  def server_aliases
+    if super.blank?
+      self.server_aliases = server_aliases_from_ssl_certificate
+    end
+
+    return super
   end
   
   protected
@@ -67,6 +84,23 @@ class VHost < ActiveRecord::Base
       cert_modulo = OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/modulus:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
       errors[:ssl_key] = 'must match the ssl certificate' unless pkey_modulo == cert_modulo
     end
+  end
+
+  def server_name_from_ssl_certificate
+    dns_alt_names_from_ssl_certificate.first
+  end
+
+  def server_aliases_from_ssl_certificate
+    results = dns_alt_names_from_ssl_certificate.delete_if { |x| x.downcase == self.server_name.downcase }
+    return nil if results.empty?
+    results * ','
+  end
+
+  def dns_alt_names_from_ssl_certificate
+    subject_alt_names = OpenSSL::X509::Certificate.new(ssl_certificate).extensions.detect { |x| x.to_s =~ /.*subjectAltName.*/ }  
+    subject_alt_names.value.split(",").map { |x| x.strip }.select { |x| x =~ /^DNS\:/ }.map { |x| x[4..-1] }
+  rescue
+    []
   end
   
   def push_destroy_to_amqp
