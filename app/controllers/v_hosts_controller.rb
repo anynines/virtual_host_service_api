@@ -1,4 +1,3 @@
-require 'pp'
 class VHostsController < ApplicationController
   
   def create
