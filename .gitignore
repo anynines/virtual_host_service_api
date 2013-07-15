@@ -17,3 +17,4 @@
 config/application.yml
 config/database.yml
 config/amqp.yml
+manifest.yml
