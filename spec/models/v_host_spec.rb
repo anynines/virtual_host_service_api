@@ -10,17 +10,7 @@ describe VHost do
         vhost.save.should be true
         vhost.errors.should be_empty
       end
-    
-    context 'with an blank ssl ca certificate' do
-  
-      it 'should save the vhost' do
-        vhost = FactoryGirl.build(:valid_v_host_without_ca_cert)
-        vhost.save.should be true
-        vhost.errors.should be_empty
-      end
-    
-    end
-      
+
       it 'should push a valid vhost to RabbitMQ' do
         pending
       end
@@ -31,6 +21,17 @@ describe VHost do
       
       it 'should push the private ssl key to RabbitMQ' do
         pending
+      end
+    end
+     
+    context 'with an blank ssl ca certificate' do
+      
+      it 'should save the vhost' do
+        
+        vhost = FactoryGirl.build(:valid_v_host_without_ca_cert)
+        vhost.save.should be true
+        vhost.errors.should be_empty
+        
       end
       
     end
