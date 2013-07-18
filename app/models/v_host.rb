@@ -61,13 +61,27 @@ class VHost < ActiveRecord::Base
   end
   
   def must_have_a_well_formatted_ssl_ca_certificate
+    
+    # The ca certificate is optional
+    return if ssl_ca_certificate.blank?     
+
     OpenSSL::X509::Certificate.new(ssl_ca_certificate)
+
+    #the certificate should start with "-----BEGIN CERTIFICATE-----"
+    #and end with "-----END CERTIFICATE-----"
+    tmp_cert = ssl_ca_certificate.gsub("\n", "")
+    raise unless tmp_cert =~ /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/
   rescue
     errors[:ssl_ca_certificate] << 'is invalid'
   end
   
   def must_have_a_well_formatted_ssl_certificate
     OpenSSL::X509::Certificate.new(ssl_certificate)
+
+    #the certificate should start with "-----BEGIN CERTIFICATE-----"
+    #and end with "-----END CERTIFICATE-----"
+    tmp_cert = ssl_certificate.gsub("\n", "")
+    raise unless tmp_cert =~ /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/
   rescue
     errors[:ssl_certificate] << 'is invalid'
   end

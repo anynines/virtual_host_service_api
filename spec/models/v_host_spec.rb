@@ -10,6 +10,16 @@ describe VHost do
         vhost.save.should be true
         vhost.errors.should be_empty
       end
+    
+    context 'with an blank ssl ca certificate' do
+  
+      it 'should save the vhost' do
+        vhost = FactoryGirl.build(:valid_v_host_without_ca_cert)
+        vhost.save.should be true
+        vhost.errors.should be_empty
+      end
+    
+    end
       
       it 'should push a valid vhost to RabbitMQ' do
         pending
@@ -68,6 +78,17 @@ describe VHost do
         vhost.errors[:ssl_certificate].first.should eq 'is invalid'
       end
     end
+
+    context 'with an ssl certificate containing useless appending' do
+      it 'should trigger an error' do
+
+
+        vhost = FactoryGirl.build(:v_host_with_ssl_certificate_containing_usless_appending)
+
+        vhost.save
+        vhost.errors[:ssl_certificate].first.should eq 'is invalid'
+      end
+    end
     
     context 'with an invalid ssl ca certificate' do
       it 'should trigger an error' do
@@ -75,14 +96,6 @@ describe VHost do
         vhost.save
         vhost.errors[:ssl_ca_certificate].first.should eq 'is invalid'
       end
-    end
-
-    context 'with an blank ssl ca certificate' do
-    
-      it 'should save the vhost' do
-        pending
-      end
-
     end
     
     context 'with a different modulo in the ssl certificate and the ssl key' do

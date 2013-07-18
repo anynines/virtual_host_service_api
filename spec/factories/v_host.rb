@@ -71,6 +71,34 @@ mcnrksdX9+yqwtT5uev/7PXM6IdMTB+VxW6n0fiNa/nhMApDmHvVrxSSaht7QxiY
 nenMSGo4crCtBmTLWtqxhuizKD7OEEenXOUeGCDeDDGZOOgCcw9oVk5ZErhndTqR
 7BeVZ1Q+foNw3Yl5o46J5K5AvIulzMCP
 -----END CERTIFICATE-----"
+
+  SSL_CERTIFICATE_WITH_USELESS_APPENDING = "-----BEGIN CERTIFICATE-----
+MIID1DCCAbwCAQEwDQYJKoZIhvcNAQEFBQAwgYgxCzAJBgNVBAYTAkRFMREwDwYD
+VQQIEwhTYWFybGFuZDEVMBMGA1UEBxMMU2FhcmJydWVja2VuMQ0wCwYDVQQKEwRh
+dnRxMRAwDgYDVQQLEwdob3N0aW5nMQ0wCwYDVQQDEwRvbGxpMR8wHQYJKoZIhvcN
+AQkBFhBvd29sZkBhdmFydGVxLmRlMB4XDTEzMDYyNTA3NDg1MloXDTE0MDYyNTA3
+NDg1MlowWzELMAkGA1UEBhMCREUxEzARBgNVBAgTClNvbWUtU3RhdGUxCzAJBgNV
+BAcTAnNiMQwwCgYDVQQKEwNvcmcxDTALBgNVBAsTBHVuaXQxDTALBgNVBAMTBG5h
+bWUwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAJhiuU8QqHPlk+HEpcu861BH
+gVDUTOkjcqTHmWBcOafykhfCUrLe6gU1NHgA1z2vixuX87RCEqHb99wwWurCEc79
+yc+9LG2Va6khuC+X8xEH9/W0qul7E8u1OhwQVtTAVkv2AXFvhsOfUM+PN6EDdp8d
+4Fg53M9DY1PfKk0mc27hAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBABbt7WxEu6A+
++Jszqm3j7UOT0JRcCb8QVjNQlejtpjpntQrRLUWl4YbCAtGTSLAIJ8x3zB8aOEQx
+sZQ7BcVQipNgr3P3wSzCdFPGaqe5IuXq0UypmHjr854G+Dt997CIuvH1g9Qylnck
+pClpswMhltvnkcjPGEGiBtH5dXyVrRklXzSDHmX4vg5dv1GVLpEnq5XrvKypN/Hq
+zuWvyd6FUuXZ6BMlrfUoa4mZTxY3FGpcoqJugKAX5GOiNLz9sNpG4X9X37QnVPKE
+0BHdkJoyTuAgaEH+/3bYNrx+VvU1mvY+M6QPr2joLLDtTro1M1+oOMyXwK99e2lS
+3K0l6S546A2Po4Kw5txMz9ETId5N3cHo1hwwirGItLSFblNWitsLG56eW+sE+NoV
+qh4F1fYl6XPcRlqel5H29a8uQWN3jWsDDnsih5PCvEEPMAJ+E+vDTNBo4bGeKHw5
+mcnrksdX9+yqwtT5uev/7PXM6IdMTB+VxW6n0fiNa/nhMApDmHvVrxSSaht7QxiY
+9T/X2Hd8SgTZAjeTbgTqxvhyAh1Y24ti6yIvUj35oZUlg5teO6W9LQOSklHgy7MH
+nenMSGo4crCtBmTLWtqxhuizKD7OEEenXOUeGCDeDDGZOOgCcw9oVk5ZErhndTqR
+7BeVZ1Q+foNw3Yl5o46J5K5AvIulzMCP
+-----END CERTIFICATE-----
+adsf
+adf
+ad
+adsf"
   
   CORRUPT_SSL_CERTIFICATE = "-----BEGIN CERTIFICATE-----
 MIID1DCCAbwCAQEwDQYJKoZIhacNAQEFBQAwgYgxCzAJBgNVBAYTAkRFMREwDwYD
@@ -289,6 +317,14 @@ YGixHCwXW0s/3aHDWA==
     ssl_ca_certificate VALID_CA_CERTIFICATE
     ssl_key PLAIN_RSA_KEY
   end
+
+  factory :valid_v_host_without_ca_cert, :class => VHost do
+    server_name "example.de"
+    organization_guid "a-valid-org-guid"
+    ssl_certificate VALID_SSL_CERTIFICATE
+    ssl_ca_certificate ""
+    ssl_key PLAIN_RSA_KEY
+  end
   
   factory :v_host_with_encrypted_ssl_key, :class => VHost do
     server_name "example.de"
@@ -326,6 +362,14 @@ YGixHCwXW0s/3aHDWA==
     server_name "example.de"
     organization_guid "a-valid-org-guid"
     ssl_certificate CORRUPT_SSL_CERTIFICATE
+    ssl_ca_certificate VALID_CA_CERTIFICATE
+    ssl_key PLAIN_RSA_KEY
+  end
+
+  factory :v_host_with_ssl_certificate_containing_usless_appending, :class =>VHost do
+    server_name "example.de"
+    organization_guid "a-valid-org-guid"
+    ssl_certificate SSL_CERTIFICATE_WITH_USELESS_APPENDING
     ssl_ca_certificate VALID_CA_CERTIFICATE
     ssl_key PLAIN_RSA_KEY
   end
