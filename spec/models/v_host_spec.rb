@@ -11,7 +11,7 @@ describe VHost do
         vhost.errors.should be_empty
       end
       
-      it 'should push a valid vhost to rebbitMQ' do
+      it 'should push a valid vhost to RabbitMQ' do
         pending
       end
       
@@ -19,10 +19,30 @@ describe VHost do
         pending
       end
       
-      it 'should push the private ssl key to rebbitMQ' do
+      it 'should push the private ssl key to RabbitMQ' do
         pending
       end
       
+    end
+
+    context 'with any invalid attribute' do
+      it 'should not push data to the RabbitMQ' do
+        vhost = FactoryGirl.build(:v_host_with_invalid_ssl_key)
+        vhost.expects(:push_to_amqp).never
+        vhost.save
+      end
+    end
+
+    context 'with an broken RabbitMQ connection and valid attributes' do
+      it 'should not save the vhost to the database' do
+
+        vhost = FactoryGirl.build(:valid_v_host)
+        vhost.stubs(:push_to_amqp).raises AMQP::TCPConnectionFailed
+
+        vhost.save rescue
+
+        VHost.all.count.should be 0
+      end
     end
     
     context 'with an encrypted ssl key' do
@@ -55,6 +75,14 @@ describe VHost do
         vhost.save
         vhost.errors[:ssl_ca_certificate].first.should eq 'is invalid'
       end
+    end
+
+    context 'with an blank ssl ca certificate' do
+    
+      it 'should save the vhost' do
+        pending
+      end
+
     end
     
     context 'with a different modulo in the ssl certificate and the ssl key' do

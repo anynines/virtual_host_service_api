@@ -10,6 +10,8 @@ class VHostsController < ApplicationController
       render :json => {:errors => vhost.errors.full_messages}, :status => 422
     end
     
+  rescue AMQP::TCPConnectionFailed => ex
+    render :json => {:errors => ['Could not establish TCP connection to the amqp broker']}, :status => 500
   end
   
   def destroy_by_server_name
@@ -21,7 +23,9 @@ class VHostsController < ApplicationController
     else
       render :json => {:errors => 'error on deleting vhost'}, :status => 422
     end
-    
+
+  rescue AMQP::TCPConnectionFailed => ex
+    render :json => {:errors => ['Could not establish TCP connection to the amqp broker']}, :status => 500
   end
   
   def by_organization

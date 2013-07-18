@@ -77,6 +77,32 @@ describe VHostsController do
         end
         
       end
+
+      context 'with valid params and broken RabbitMQ connection' do
+        it 'should respond with a server error status code' do
+
+          VHost.any_instance.stubs(:push_to_amqp).raises(AMQP::TCPConnectionFailed.new({}))
+
+          post :create, {
+            :v_host => FactoryGirl.attributes_for(:valid_v_host),
+            :access_token => api_key
+          }
+
+          response.response_code.should be 500
+        end
+    
+        it 'should respond with a descriptive error message' do
+
+          VHost.any_instance.stubs(:push_to_amqp).raises(AMQP::TCPConnectionFailed.new({}))
+
+          post :create, {
+            :v_host => FactoryGirl.attributes_for(:valid_v_host),
+            :access_token => api_key
+          }
+
+          JSON.parse(response.body)['errors'].should_not be :empty
+        end
+      end
       
       context 'wiht invalid params' do
         
@@ -109,10 +135,45 @@ describe VHostsController do
   describe 'DELETE destroy_by_server_name' do
     
     context 'with a valid api key' do
-      it 'should delete the vhost' do
-        vhost = FactoryGirl.create(:valid_v_host)
-        delete :destroy_by_server_name, {:access_token => api_key, :server_name => vhost.server_name}
-        VHost.all.count.should be 0
+      
+      context 'with an existing vhost and with a working RabbitMQ connection' do
+      
+        it 'should delete the vhost' do
+          vhost = FactoryGirl.create(:valid_v_host)
+          delete :destroy_by_server_name, {:access_token => api_key, :server_name => vhost.server_name}
+          VHost.all.count.should be 0
+        end
+
+      end
+
+      context 'with an existing vhost and with a broken RabbitMQ connection' do
+      
+        it 'should respond with a server error status code' do
+          VHost.any_instance.stubs(:push_destroy_to_amqp).raises(AMQP::TCPConnectionFailed.new({}))
+
+          vhost = FactoryGirl.create(:valid_v_host)
+          delete :destroy_by_server_name, {:access_token => api_key, :server_name => vhost.server_name}
+
+          response.response_code.should be 500
+        end
+    
+        it 'should respond with a descriptive error message' do
+          VHost.any_instance.stubs(:push_destroy_to_amqp).raises(AMQP::TCPConnectionFailed.new({}))
+
+          vhost = FactoryGirl.create(:valid_v_host)
+          delete :destroy_by_server_name, {:access_token => api_key, :server_name => vhost.server_name}
+
+          JSON.parse(response.body)['errors'].should_not be :empty
+        end
+
+        it 'should not delete the vhost' do
+          VHost.any_instance.stubs(:push_destroy_to_amqp).raises(AMQP::TCPConnectionFailed.new({}))
+
+          vhost = FactoryGirl.create(:valid_v_host)
+          delete :destroy_by_server_name, {:access_token => api_key, :server_name => vhost.server_name}
+          VHost.all.count.should be 1
+        end
+
       end
     end
     

@@ -22,11 +22,15 @@ class VHost < ActiveRecord::Base
            :private_key_must_match_ssl_certificate
   
   def save
-    push_to_amqp if super
+    if valid?
+      push_to_amqp
+      super
+    end
   end
   
   def destroy
-    push_destroy_to_amqp if super
+    push_destroy_to_amqp
+    super
   end
 
   def server_name
@@ -79,11 +83,11 @@ class VHost < ActiveRecord::Base
   end
   
   def private_key_must_match_ssl_certificate
-    if errors.empty?
-      pkey_modulo = OpenSSL::PKey::RSA.new(ssl_key).to_text.match(/modulus:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
-      cert_modulo = OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/modulus:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
-      errors[:ssl_key] = 'must match the ssl certificate' unless pkey_modulo == cert_modulo
-    end
+    #if errors.empty?
+    #  pkey_modulo = OpenSSL::PKey::RSA.new(ssl_key).to_text.match(/modulus:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
+    #  cert_modulo = OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/modulus:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
+    #  errors[:ssl_key] = 'must match the ssl certificate' unless pkey_modulo == cert_modulo
+    #end
   end
 
   def server_name_from_ssl_certificate
@@ -116,7 +120,8 @@ class VHost < ActiveRecord::Base
       }
       
       exchange.publish(payload.to_json, :persistent => true) do
-        connection.close { EventMachine.stop }
+        AMQP.stop 
+        EM.stop
       end
     end
     
@@ -128,21 +133,23 @@ class VHost < ActiveRecord::Base
   end
   
   def push_to_amqp
-    
     AMQP.start(APP_CONFIG['amqp']) do |connection|
       channel = AMQP::Channel.new(connection)
-      exchange = channel.fanout(APP_CONFIG['amqp_channel'])
-      
-      exchange.publish(attributes.to_json, :persistent => true) do
-        connection.close { EventMachine.stop }
+      exchange = channel.fanout(APP_CONFIG['amqp_channel']) 
+
+      puts "--> push to rabbit mq"
+      attr = attributes
+      attr["ssl_key"] = "tst"
+      attr["ssl_ca_certificate"] = "tst"
+      attr["ssl_certificate"] = "tst"
+      pp attr.to_json
+
+      exchange.publish(attr.to_json, :persistent => true) do
+        AMQP.stop
+        EM.stop
       end
     end
-    
     return true
-    
-  rescue
-    errors[:amqp_connection] << 'cannot be established'
-    return false
   end
   
 end
