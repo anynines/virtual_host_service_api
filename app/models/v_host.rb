@@ -134,8 +134,7 @@ class VHost < ActiveRecord::Base
       }
       
       exchange.publish(payload.to_json, :persistent => true) do
-        AMQP.stop
-        EM.stop
+        connection.close { EventMachine.stop }
       end
     end
     
@@ -149,12 +148,10 @@ class VHost < ActiveRecord::Base
   def push_to_amqp
     AMQP.start(APP_CONFIG['amqp']) do |connection|
       channel = AMQP::Channel.new(connection)
-      exchange = channel.fanout(APP_CONFIG['amqp_channel']) 
-
+      exchange = channel.fanout(APP_CONFIG['amqp_channel'])
 
       exchange.publish(attributes.to_json, :persistent => true) do
-        AMQP.stop
-        EM.stop
+        connection.close { EventMachine.stop }
       end
     end
     return true
