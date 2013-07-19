@@ -134,7 +134,7 @@ class VHost < ActiveRecord::Base
       }
       
       exchange.publish(payload.to_json, :persistent => true) do
-        AMQP.stop 
+        AMQP.stop
         EM.stop
       end
     end
@@ -151,14 +151,8 @@ class VHost < ActiveRecord::Base
       channel = AMQP::Channel.new(connection)
       exchange = channel.fanout(APP_CONFIG['amqp_channel']) 
 
-      puts "--> push to rabbit mq"
-      attr = attributes
-      attr["ssl_key"] = "tst"
-      attr["ssl_ca_certificate"] = "tst"
-      attr["ssl_certificate"] = "tst"
-      pp attr.to_json
 
-      exchange.publish(attr.to_json, :persistent => true) do
+      exchange.publish(attributes.to_json, :persistent => true) do
         AMQP.stop
         EM.stop
       end

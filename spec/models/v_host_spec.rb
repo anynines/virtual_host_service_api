@@ -27,11 +27,9 @@ describe VHost do
     context 'with an blank ssl ca certificate' do
       
       it 'should save the vhost' do
-        
         vhost = FactoryGirl.build(:valid_v_host_without_ca_cert)
         vhost.save.should be true
         vhost.errors.should be_empty
-        
       end
       
     end
@@ -82,7 +80,6 @@ describe VHost do
 
     context 'with an ssl certificate containing useless appending' do
       it 'should trigger an error' do
-
 
         vhost = FactoryGirl.build(:v_host_with_ssl_certificate_containing_usless_appending)
 
