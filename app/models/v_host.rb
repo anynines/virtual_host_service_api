@@ -70,7 +70,7 @@ class VHost < ActiveRecord::Base
     #the certificate should start with "-----BEGIN CERTIFICATE-----"
     #and end with "-----END CERTIFICATE-----"
     tmp_cert = ssl_ca_certificate.gsub("\n", "")
-    raise unless tmp_cert =~ /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/
+    raise unless tmp_cert.strip =~ /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/
   rescue
     errors[:ssl_ca_certificate] << 'is invalid'
   end
@@ -81,7 +81,7 @@ class VHost < ActiveRecord::Base
     #the certificate should start with "-----BEGIN CERTIFICATE-----"
     #and end with "-----END CERTIFICATE-----"
     tmp_cert = ssl_certificate.gsub("\n", "")
-    raise unless tmp_cert =~ /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/
+    raise unless tmp_cert.strip =~ /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/
   rescue
     errors[:ssl_certificate] << 'is invalid'
   end
