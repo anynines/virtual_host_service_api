@@ -139,21 +139,29 @@ class VHost < ActiveRecord::Base
     end
     
     return true
-    
-  rescue
-    errors[:amqp_connection] << 'cannot be established'
-    return false 
   end
   
   def push_to_amqp
-    AMQP.start(APP_CONFIG['amqp']) do |connection|
-      channel = AMQP::Channel.new(connection)
-      exchange = channel.fanout(APP_CONFIG['amqp_channel'])
 
-      exchange.publish(attributes.to_json, :persistent => true) do
+    AMQP.start(APP_CONFIG['amqp']) do |connection|
+
+      channel = AMQP::Channel.new(connection)
+      channel.on_connection_interruption do |ch|
+        puts "--> Channel #{ch.id} detected connection interruption"
+        EventMachine.stop
+      end
+
+      exchange = channel.fanout(APP_CONFIG['amqp_channel'])   
+      exchange.on_connection_interruption do |ex|
+        puts "--> Exchange #{ex.name} detected connection interruption"
+        EventMachine.stop
+      end 
+
+      exchange.publish(attributes.to_json) do
         connection.close { EventMachine.stop }
       end
     end
+
     return true
   end
   
