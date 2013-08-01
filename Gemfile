@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
+#TODO: remove and test
 gem 'rails', '3.2.13'
+
 gem 'rails-api'
 gem 'eventmachine'
 gem 'amqp'
