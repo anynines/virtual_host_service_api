@@ -1,4 +1,5 @@
 require 'openssl'
+require 'pp'
 
 ##
 # This class contains informations neccessary to extend a webserver configuration
@@ -97,11 +98,11 @@ class VHost < ActiveRecord::Base
   end
   
   def private_key_must_match_ssl_certificate
-    #if errors.empty?
-    #  pkey_modulo = OpenSSL::PKey::RSA.new(ssl_key).to_text.match(/modulus:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
-    #  cert_modulo = OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/modulus:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
-    #  errors[:ssl_key] = 'must match the ssl certificate' unless pkey_modulo == cert_modulo
-    #end
+    if errors.empty?
+      pkey_modulo = OpenSSL::PKey::RSA.new(ssl_key).to_text.match(/modulus.*:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
+      cert_modulo = OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/modulus.*:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
+      errors[:ssl_key] = 'must match the ssl certificate' unless pkey_modulo == cert_modulo
+    end
   end
 
   def server_name_from_ssl_certificate
