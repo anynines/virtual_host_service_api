@@ -128,7 +128,7 @@ class VHost < ActiveRecord::Base
   def push_destroy_to_amqp
     AMQP.start(APP_CONFIG['amqp']) do |connection|
       channel = AMQP::Channel.new(connection)
-      exchange = channel.fanout(APP_CONFIG['amqp_channel'])
+      exchange = channel.fanout(APP_CONFIG['amqp_channel'], :durable => true)
       
       payload = {
         :action => 'delete',
@@ -149,18 +149,19 @@ class VHost < ActiveRecord::Base
     AMQP.start(APP_CONFIG['amqp']) do |connection|
 
       channel = AMQP::Channel.new(connection)
+
       channel.on_connection_interruption do |ch|
         puts "--> Channel #{ch.id} detected connection interruption"
         EventMachine.stop
       end
 
-      exchange = channel.fanout(APP_CONFIG['amqp_channel'])   
+      exchange = channel.fanout(APP_CONFIG['amqp_channel'], :durable => true)
       exchange.on_connection_interruption do |ex|
         puts "--> Exchange #{ex.name} detected connection interruption"
         EventMachine.stop
       end 
 
-      exchange.publish(attributes.to_json) do
+      exchange.publish(attributes.to_json, :persistent => true) do
         connection.close { EventMachine.stop }
       end
     end
