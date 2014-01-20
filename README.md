@@ -1,6 +1,7 @@
-== Virtual Host Service
+# Virtual Host Service
 
-=== Problem solved by this service:
+
+## Problem solved by this service
 
 To secure an URL with https it is necceary to setup a SSL certificate on the webserver. To setup a SSL certificate the configuration of the webserver has to be extended by a new vhost section. 
 
@@ -8,16 +9,16 @@ To secure an URL with https it is necceary to setup a SSL certificate on the web
 
 - Problem 2: Whenever a webserver is part of a server farm (behind a load balancer) the administrator has to add the certificates to each webserver.
 
-== System Architecture
+## System Architecture
+
 
 The Virtual Host Service (vHost Service) provides an interface to push SSL certificates (certificate, ca certificate, private key) into the service. After passing a certificate to the vHost service the service will forward the cerificate into a RabbitMQ Exchange. The RabbitMQ Excange will dispatch the cerificates to a virual host worker installed on each webserver. The vHost worker eventually configures the webserver (nginx).
 
-![alt tag](https://github.com/anynines/virtual_host_service_api/tree/master/doc/overall_architecture.png)
+![an image](/doc/overall_architecture.png)
 
 The sources for the worker wich has to be installed on each webserver are located here:
 https://github.com/avarteqgmbh/virtual_host_service_worker
 
-== Configuration
+## Configuration
 
-== Running the tests
-
+## Running the tests
