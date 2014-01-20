@@ -21,7 +21,7 @@ The main purpose of this service is to provide the users of an Cloud Foundry ins
 
 ## Requirements
 
-To run the vHost service a MySql database and a RabbitMQ message bus is required. Further at least on corresponding worker should be configured and running.
+To run the vHost, service a MySql database and a RabbitMQ message bus is required. Further at least one corresponding worker should be configured and running.
 To checkout the worker see: https://github.com/avarteqgmbh/virtual_host_service_worker
 
 ## Configuration
@@ -29,13 +29,13 @@ To checkout the worker see: https://github.com/avarteqgmbh/virtual_host_service_
 To configure the vHost service the configuration templates can be used.
 
 ```
-mv config/amqp.yml.example config/amqp.yml
-mv config/mysql.yml.example config/mysql.yml
-mv config/application.example config/application.yml
+cp config/amqp.yml.example config/amqp.yml
+cp config/database.yml.example config/database.yml
+cp config/application.example config/application.yml
 ```
 
 The amqp.yml contains the RabbitMQ connection information. 
-The mysql.yml contains the MySql connection information.
+The database.yml contains the MySql connection information.
 
 The application.yml contains following configuration fields:
 
@@ -56,9 +56,9 @@ Paramameters:
 	
 - **params['access_token']**: One of the API keys configured in the config/application.yml file.
 - **params['v_host']['organization_guid']**: A organization (customer) id to which the certificate belongs (optional).
-- **params['v_host']['ssl_certificate']**: The ssl certificate for a domain. The Servername which should be protected is coded there.
-- **params['v_host']['ssl_ca_certificate']**: The ca certificate (optional, cloud also be a chain of certificates)
-- **params['v_host']['ssl_key']**: The private RSA key (must be unencrypted)
+- **params['v_host']['ssl_certificate']**: The ssl certificate for a domain. The hostname/servername which should be protected is encoded there.
+- **params['v_host']['ssl_ca_certificate']**: The ca certificate (optional, could also be a chain of certificates)
+- **params['v_host']['ssl_key']**: The private RSA key belonging to the certificate (must be unencrypted)
 
 ### List all certificates of an organization (customer)
 
@@ -73,7 +73,7 @@ Paramameters:
 - **params['access_token']**: One of the API keys configured in the config/application.yml file.
 - **params['guid']**: The id of the organization/customer
 
-### Delete a vHost configuration (upload ssl certificate)
+### Delete a vHost configuration
 
 ```
 DELETE /v_hosts/destroy_by_server_name
@@ -82,7 +82,7 @@ DELETE /v_hosts/destroy_by_server_name
 Paramameters:
 
 - **params['access_token']**: One of the API keys configured in the config/application.yml file.
-- **params['server_name']**: The server name (domain) for wich the certificate should be deleted.
+- **params['server_name']**: The server name (hostname) for wich the certificate should be deleted.
 
 
 ## Running the tests
@@ -91,9 +91,8 @@ Make sure the MySql and RabbitMQ servers are running. And the vHost service is c
 
 ```
 bundle install
-bundle exec rake db:create
-bundle exec rake db:migrate
-RAILS_ENV=test bundle exec rake db:migrate
+bundle exec rake db:setup
+bundle exec rake db:test:prepare
 
 bundle exec rspec spec
 ```
