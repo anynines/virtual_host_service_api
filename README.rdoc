@@ -1,14 +1,23 @@
 == Virtual Host Service
 
-This API provides a endpoint to manage some virtual hosts configured in a webserver configuration (apache or nginx).
+=== Problem solved by this service:
 
-A virtual host makes it possible to handle more than one Universal Resource Identifiers (=> more domains) by one machine.
-Further it is possible to setup a ssl certificate for each virtual host so that the host is reachable by the https protocol.
+To secure an URL with https it is necceary to setup a SSL certificate on the webserver. To setup a SSL certificate the configuration of the webserver has to be extended by a new vhost section. 
 
-Due to reliability it might be necessary to run more than one webserver in a cluster. In this case each config of each webserver
-needs to be updated when a new virtual host ist added/deleted. To handle this requirement a worker perfomrs the webserver
-configuration update. For each webserver a seperatly worker needs to be setted up which subscribes the api events.
+- Problem 1: Whenever a shared webserver is used to host multible customer applications only the admistrator of the webserver is able to add the customers ssl certificates.
 
-You will find the code for the worker in the following repo:
+- Problem 2: Whenever a webserver is part of a server farm (behind a load balancer) the administrator has to add the certificates to each webserver.
+
+== System Architecture
+
+The Virtual Host Service (vHost Service) provides an interface to push SSL certificates (certificate, ca certificate, private key) into the service. After passing a certificate to the vHost service the service will forward the cerificate into a RabbitMQ Exchange. The RabbitMQ Excange will dispatch the cerificates to a virual host worker installed on each webserver. The vHost worker eventually configures the webserver (nginx).
+
+![alt tag](https://github.com/anynines/virtual_host_service_api/tree/master/doc/overall_architecture.png)
+
+The sources for the worker wich has to be installed on each webserver are located here:
 https://github.com/avarteqgmbh/virtual_host_service_worker
+
+== Configuration
+
+== Running the tests
 
