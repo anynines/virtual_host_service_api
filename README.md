@@ -1,6 +1,5 @@
 # Virtual Host Service
 
-
 ## Problem solved by this service
 
 To secure an URL with https it is necceary to setup a SSL certificate on the webserver. To setup a SSL certificate the configuration of the webserver has to be extended by a new vhost section. 
@@ -20,43 +19,84 @@ https://github.com/avarteqgmbh/virtual_host_service_worker
 
 The main purpose of this service is to provide the users of an Cloud Foundry installation the possibility to upload their certificates throug a customer panel.
 
+## Requirements
+
+To run the vHost service a MySql database and a RabbitMQ message bus is required. Further at least on corresponding worker should be configured and running.
+To checkout the worker see: https://github.com/avarteqgmbh/virtual_host_service_worker
+
 ## Configuration
 
-## REST API
+To configure the vHost service the configuration templates can be used.
+
+```
+mv config/amqp.yml.example config/amqp.yml
+mv config/mysql.yml.example config/mysql.yml
+mv config/application.example config/application.yml
+```
+
+The amqp.yml contains the RabbitMQ connection information. 
+The mysql.yml contains the MySql connection information.
+
+The application.yml contains following configuration fields:
+
+- api_keys: Key value pairs. Each value of one of the pairs can be used to access the API. 
+- amqp_channel: This should be the same string as used in the virtual host worker configuration.
+
+## REST API of the Virtual Host Service 
 
 ### Create a new vHost configuration (upload ssl certificate)
 
 This request should contain a ssl certificate and the corresponding private RSA key as parameters. The server name encoded in the certificate is actually the domain which should be protected with this certificate.
 
- POST /v_hosts
+```
+POST /v_hosts
+```
 
 Paramameters: 
 	
-- params['access_token']: One of the API keys configured in the config/application.yml file.
-- params['v_host']['organization_guid']: A organization (customer) id to which the certificate belongs (optional).
-- params['v_host']['ssl_certificate']: The ssl certificate for a domain. The Servername which should be protected is coded there.
-- params['v_host']['ssl_ca_certificate']: The ca certificate (optional, cloud also be a chain of certificates)
-- params['v_host']['ssl_key']: The private RSA key (must be unencrypted)
+- **params['access_token']**: One of the API keys configured in the config/application.yml file.
+- **params['v_host']['organization_guid']**: A organization (customer) id to which the certificate belongs (optional).
+- **params['v_host']['ssl_certificate']**: The ssl certificate for a domain. The Servername which should be protected is coded there.
+- **params['v_host']['ssl_ca_certificate']**: The ca certificate (optional, cloud also be a chain of certificates)
+- **params['v_host']['ssl_key']**: The private RSA key (must be unencrypted)
 
 ### List all certificates of an organization (customer)
 
 This request returns a list of all server names which are protected with an uploaded certificate.
 
- GET /v_hosts/by_organization
+```
+GET /v_hosts/by_organization
+```
 
 Paramameters:
 
-- params['access_token']: One of the API keys configured in the config/application.yml file.
-- params['guid']: The id of the organization/customer
+- **params['access_token']**: One of the API keys configured in the config/application.yml file.
+- **params['guid']**: The id of the organization/customer
 
 ### Delete a vHost configuration (upload ssl certificate)
 
- DELETE /v_hosts/destroy_by_server_name
+```
+DELETE /v_hosts/destroy_by_server_name
+```
 
 Paramameters:
 
-- params['access_token']: One of the API keys configured in the config/application.yml file.
-- params['server_name']: The server name (domain) for wich the certificate should be deleted.
+- **params['access_token']**: One of the API keys configured in the config/application.yml file.
+- **params['server_name']**: The server name (domain) for wich the certificate should be deleted.
 
 
 ## Running the tests
+
+Make sure the MySql and RabbitMQ servers are running. And the vHost service is configured (see section Configuration)
+
+```
+bundle install
+bundle exec rake db:create
+bundle exec rake db:migrate
+RAILS_ENV=test bundle exec rake db:migrate
+
+bundle exec rspec spec
+```
+
+
+
