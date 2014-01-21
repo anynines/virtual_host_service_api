@@ -2,11 +2,18 @@ require 'openssl'
 require 'pp'
 
 ##
-# This class contains informations neccessary to extend a webserver configuration
-# with a virtual host able to terminate a ssl certificate. This class mainly aims to
-# perform some validation on the imput data rather than write the webserver config.
-# Instead of writing the webserver config it will push the data to a queue and
-# leave the job to a worker.
+# This class is to initialize with a SSL certificate, an unencrypted ssl key and
+# a optional ca certificate.
+#
+# e.g.:
+#
+# vhost = VHost.new({:ssl_certificate => 'cert content', :ssl_key => key, :ssl_ca_certificate => 'ca cert'})
+#
+# The push_to_amqp instance method will perform some validations on the passed certificate and
+# SSL key and eventually it will push the information to an amqp fanout-exchange. One ore more
+# Worker can connect (subscribe) to the amqp exchange and make webserver config changes to make
+# the ssl certificate working.
+#
 class VHost < ActiveRecord::Base
   
   SERVER_NAME_REGEX = /^(\*\.)?([a-zA-Z0-9]([a-zA-Z0-9\-])*[a-zA-Z0-9]\.)*([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\.([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])$/
