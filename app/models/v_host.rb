@@ -168,7 +168,7 @@ class VHost < ActiveRecord::Base
         EventMachine.stop
       end 
 
-      exchange.publish(attributes.to_json, :persistent => true) do
+      exchange.publish(attributes.to_json.gsub('\r\n', '\n'), :persistent => true) do
         connection.close { EventMachine.stop }
       end
     end

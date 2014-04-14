@@ -24,7 +24,7 @@ describe VHost do
       end
     end
      
-    context 'with an blank ssl ca certificate' do
+    context 'with a blank ssl ca certificate' do
       
       it 'should save the vhost' do
         vhost = FactoryGirl.build(:valid_v_host_without_ca_cert)
