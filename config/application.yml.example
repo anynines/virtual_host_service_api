@@ -1,14 +1,14 @@
 development:
   amqp_channel: 'virtual_host_jobs'
   api_keys:
-    customer_partal: ''
+    customer_partal: 'FGaNYNkgvQ'
 
 production:
   amqp_channel: 'virtual_host_jobs'
   api_keys:
-    customer_partal: ''
-    
+    customer_partal: 'FGaNYNkgvQ'
+
 test:
   amqp_channel: 'virtual_host_jobs'
   api_keys:
-    customer_partal: ''
+    customer_partal: 'FGaNYNkgvQ'

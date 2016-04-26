@@ -13,9 +13,9 @@
 # * timeout  - Timeout
 
 defaults: &defaults
-  user: guest
-  pass: guest
-  host: localhost
+  user: <%= JSON.parse( ENV['VCAP_SERVICES'] )['a9hcp-rabbitmq'].first['credentials']['username'] rescue '' %>
+  pass: <%= JSON.parse( ENV['VCAP_SERVICES'] )['a9hcp-rabbitmq'].first['credentials']['password'] rescue '' %>
+  host: <%= JSON.parse( ENV['VCAP_SERVICES'] )['a9hcp-rabbitmq'].first['credentials']['host'] rescue 'localhost' %>
   vhost: /
 
 development:

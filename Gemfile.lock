@@ -61,7 +61,7 @@ GEM
     mocha (0.14.0)
       metaclass (~> 0.0.1)
     multi_json (1.7.7)
-    mysql2 (0.3.11)
+    pg (0.18.4)
     polyglot (0.3.3)
     rack (1.4.5)
     rack-cache (1.2)
@@ -125,7 +125,10 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   honeybadger
   mocha
-  mysql2
+  pg
   rails (= 3.2.13)
   rails-api
   rspec-rails (~> 2.12.2)
+
+BUNDLED WITH
+   1.10.4

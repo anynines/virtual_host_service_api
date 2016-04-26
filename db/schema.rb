@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130625072954) do
+ActiveRecord::Schema.define(:version => 20160426105213) do
 
   create_table "v_hosts", :force => true do |t|
-    t.string   "ssl_certificate"
-    t.string   "ssl_ca_certificate"
-    t.string   "ssl_key"
+    t.text     "ssl_certificate"
+    t.text     "ssl_ca_certificate"
+    t.text     "ssl_key"
     t.string   "server_name"
     t.string   "server_aliases"
     t.string   "organization_guid"

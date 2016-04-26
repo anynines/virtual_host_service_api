@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '1.9.3'
+
 #TODO: remove and test
 gem 'rails', '3.2.13'
 
@@ -8,7 +10,7 @@ gem 'eventmachine'
 gem 'amqp'
 gem 'honeybadger'
 
-gem 'mysql2'
+gem 'pg'
 
 group :test do
   gem 'rspec-rails', '~> 2.12.2'
@@ -16,6 +18,3 @@ group :test do
   gem 'mocha', :require => false
   gem 'database_cleaner'
 end
-
-
-
