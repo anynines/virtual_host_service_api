@@ -22,7 +22,7 @@ https://github.com/avarteqgmbh/virtual_host_service_worker
 
 ## Requirements
 
-The vHost service requires a MySQL database and a RabbitMQ message bus. Further at least one worker should be configured and running.
+The vHost service requires a PostgreSQL database and a RabbitMQ message bus. Further at least one worker should be configured and running.
 To checkout the worker see: https://github.com/avarteqgmbh/virtual_host_service_worker
 
 ## Configuration
