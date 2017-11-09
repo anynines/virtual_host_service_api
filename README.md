@@ -17,13 +17,13 @@ The Virtual Host Service (vHost Service) provides an interface to push SSL certi
 ![an image](/doc/overall_architecture.png)
 
 A vHost worker has to be installed on each webserver. The sources for the worker can be found here:
-https://github.com/avarteqgmbh/virtual_host_service_worker
+https://github.com/anynines/virtual_host_service_worker
 
 
 ## Requirements
 
 The vHost service requires a PostgreSQL database and a RabbitMQ message bus. Further at least one worker should be configured and running.
-To checkout the worker see: https://github.com/avarteqgmbh/virtual_host_service_worker
+To checkout the worker see: https://github.com/anynines/virtual_host_service_worker
 
 ## Configuration
 
@@ -88,7 +88,7 @@ Paramameters:
 
 ## Running the tests
 
-Make sure the MySQL and RabbitMQ servers are running. And the vHost service is configured (see section Configuration)
+Make sure the PostgreSQL and RabbitMQ servers are running. And the vHost service is configured (see section Configuration)
 
 ```
 bundle install
