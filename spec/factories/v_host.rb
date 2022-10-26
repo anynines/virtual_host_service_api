@@ -1,4 +1,4 @@
-FactoryGirl.define do |f|
+FactoryBot.define do |f|
 
   PLAIN_RSA_KEY = "-----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQCYYrlPEKhz5ZPhxKXLvOtQR4FQ1EzpI3Kkx5lgXDmn8pIXwlKy

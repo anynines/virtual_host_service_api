@@ -4,7 +4,7 @@ ENV["RAILS_ENV"] ||= 'test'
 
 require File.join( [File.dirname(__FILE__), "..", 'config/environment' ]) unless defined?(Rails)
 require 'rspec/rails'
-require 'factory_girl'
+require 'factory_bot'
 require 'database_cleaner'
 require 'mocha/setup'
 require 'pp'
@@ -36,6 +36,6 @@ RSpec.configure do |config|
 
   config.mock_with :mocha
 
-  config.color_enabled = true
+  config.color = true
   config.formatter = :documentation
 end

@@ -31,6 +31,5 @@ class VHostsController < ApplicationController
   def by_organization
     render :json => VHost.where(:organization_guid => params['guid'])
   end
-
-
+  
 end
