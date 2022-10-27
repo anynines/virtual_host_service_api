@@ -31,5 +31,11 @@ class VHostsController < ApplicationController
   def by_organization
     render :json => VHost.where(:organization_guid => params['guid'])
   end
+
+  private
+
+  def vhost_params
+    params.require(:vhost).permit(:organization_guid, :server_name, :ssl_ca_certificate, :ssl_certificate, :ssl_key, :server_aliases)
+  end
   
 end

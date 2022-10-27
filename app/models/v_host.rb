@@ -16,9 +16,7 @@ require 'pp'
 #
 class VHost < ActiveRecord::Base
   
-  SERVER_NAME_REGEX = /^(\*\.)?([a-zA-Z0-9]([a-zA-Z0-9\-])*[a-zA-Z0-9]\.)*([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\.([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])$/
-  
-  attr_accessible :organization_guid, :server_name, :ssl_ca_certificate, :ssl_certificate, :ssl_key, :server_aliases
+  SERVER_NAME_REGEX = /\A(\*\.)?([a-zA-Z0-9]([a-zA-Z0-9\-])*[a-zA-Z0-9]\.)*([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\.([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\z/
   
   validates :server_name, :uniqueness => { :case_sensitive => false }, :format => { :with => SERVER_NAME_REGEX }
   

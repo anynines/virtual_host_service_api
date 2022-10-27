@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
   
-  before_filter :authorize!
+  before_action :authorize!
   
   protected
   

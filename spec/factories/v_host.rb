@@ -311,82 +311,82 @@ YGixHCwXW0s/3aHDWA==
 -----END CERTIFICATE-----"
   
   factory :valid_v_host, :class => VHost do
-    server_name "example.de"
-    organization_guid "a-valid-org-guid"
-    ssl_certificate VALID_SSL_CERTIFICATE
-    ssl_ca_certificate VALID_CA_CERTIFICATE
-    ssl_key PLAIN_RSA_KEY
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_SSL_CERTIFICATE }
+    ssl_ca_certificate { VALID_CA_CERTIFICATE }
+    ssl_key { PLAIN_RSA_KEY }
   end
 
   factory :valid_v_host_without_ca_cert, :class => VHost do
-    server_name "example.de"
-    organization_guid "a-valid-org-guid"
-    ssl_certificate VALID_SSL_CERTIFICATE
-    ssl_ca_certificate ""
-    ssl_key PLAIN_RSA_KEY
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_SSL_CERTIFICATE }
+    ssl_ca_certificate {""}
+    ssl_key { PLAIN_RSA_KEY }
   end
   
   factory :v_host_with_encrypted_ssl_key, :class => VHost do
-    server_name "example.de"
-    organization_guid "a-valid-org-guid"
-    ssl_certificate VALID_SSL_CERTIFICATE
-    ssl_ca_certificate VALID_CA_CERTIFICATE
-    ssl_key ENCRYPTED_RSA_KEY
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_SSL_CERTIFICATE }
+    ssl_ca_certificate { VALID_CA_CERTIFICATE }
+    ssl_key { ENCRYPTED_RSA_KEY }
   end
   
   factory :v_host_with_invalid_ssl_key, :class => VHost do
-    server_name "example.de"
-    organization_guid "a-valid-org-guid"
-    ssl_certificate VALID_SSL_CERTIFICATE
-    ssl_ca_certificate VALID_CA_CERTIFICATE
-    ssl_key INVALID_RSA_KEY
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_SSL_CERTIFICATE }
+    ssl_ca_certificate { VALID_CA_CERTIFICATE }
+    ssl_key { INVALID_RSA_KEY }
   end
   
   factory :v_host_with_invalid_ssl_certificate, :class => VHost do
-    server_name "example.de"
-    organization_guid "a-valid-org-guid"
-    ssl_certificate INVALID_SSL_CERTIFICATE
-    ssl_ca_certificate VALID_CA_CERTIFICATE
-    ssl_key PLAIN_RSA_KEY
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { INVALID_SSL_CERTIFICATE }
+    ssl_ca_certificate { VALID_CA_CERTIFICATE }
+    ssl_key { PLAIN_RSA_KEY }
   end
   
   factory :v_host_with_invalid_ssl_ca_certificate, :class => VHost do
-    server_name "example.de"
-    organization_guid "a-valid-org-guid"
-    ssl_certificate VALID_SSL_CERTIFICATE
-    ssl_ca_certificate INVALID_CA_CERTIFICATE
-    ssl_key PLAIN_RSA_KEY
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_SSL_CERTIFICATE }
+    ssl_ca_certificate { INVALID_CA_CERTIFICATE }
+    ssl_key { PLAIN_RSA_KEY }
   end
   
   factory :v_host_with_corrupt_ssl_certificate, :class => VHost do
-    server_name "example.de"
-    organization_guid "a-valid-org-guid"
-    ssl_certificate CORRUPT_SSL_CERTIFICATE
-    ssl_ca_certificate VALID_CA_CERTIFICATE
-    ssl_key PLAIN_RSA_KEY
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { CORRUPT_SSL_CERTIFICATE }
+    ssl_ca_certificate { VALID_CA_CERTIFICATE }
+    ssl_key { PLAIN_RSA_KEY }
   end
 
   factory :v_host_with_ssl_certificate_containing_usless_appending, :class =>VHost do
-    server_name "example.de"
-    organization_guid "a-valid-org-guid"
-    ssl_certificate SSL_CERTIFICATE_WITH_USELESS_APPENDING
-    ssl_ca_certificate VALID_CA_CERTIFICATE
-    ssl_key PLAIN_RSA_KEY
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { SSL_CERTIFICATE_WITH_USELESS_APPENDING }
+    ssl_ca_certificate { VALID_CA_CERTIFICATE }
+    ssl_key { PLAIN_RSA_KEY }
   end
 
   factory :v_host_with_one_subject_alt_name, :class => VHost do
-    organization_guid "a-valid-org-guid"
-    ssl_certificate VALID_CERTIFICATE_WITH_ONE_SUBJECT_ALT_NAME
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_CERTIFICATE_WITH_ONE_SUBJECT_ALT_NAME }
   end
 
   factory :v_host_with_www_alt_name, :class => VHost do
-    organization_guid "a-valid-org-guid"
-    ssl_certificate VALID_CERTIFICATE_WITH_WWW_ALT_NAME
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_CERTIFICATE_WITH_WWW_ALT_NAME }
   end
 
   factory :v_host_with_wildcard_certificate, :class => VHost do
-    organization_guid "a-valid-org-guid"
-    ssl_certificate VALID_WILDCARD_CERTIFICATE
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_WILDCARD_CERTIFICATE }
   end
 
 end
