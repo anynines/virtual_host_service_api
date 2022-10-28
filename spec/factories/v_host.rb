@@ -366,7 +366,7 @@ YGixHCwXW0s/3aHDWA==
     ssl_key { PLAIN_RSA_KEY }
   end
 
-  factory :v_host_with_ssl_certificate_containing_usless_appending, :class =>VHost do
+  factory :v_host_with_ssl_certificate_containing_usless_appending, :class => VHost do
     server_name { "example.de" }
     organization_guid { "a-valid-org-guid" }
     ssl_certificate { SSL_CERTIFICATE_WITH_USELESS_APPENDING }

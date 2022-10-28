@@ -33,7 +33,7 @@ describe VHostsController, type: :controller do
       
         it 'should respond with a ok http header' do
           post :create, params: { access_token: api_key, vhost: FactoryBot.attributes_for(:valid_v_host) }
-          
+
           expect(response.response_code).to eq 200
         end
         
@@ -142,7 +142,7 @@ describe VHostsController, type: :controller do
           FactoryBot.create(:valid_v_host, :server_name => "example5.com", :organization_guid => "2-a-3-2")
           
           get :by_organization, params: { access_token: api_key, guid: "1" }
-          
+
           expect(JSON.parse(response.body).count).to be 3
         end
       end

@@ -16,10 +16,13 @@ require 'pp'
 #
 class VHost < ActiveRecord::Base
   
+  # SERVER_NAME_REGEX = /^(\*\.)?([a-zA-Z0-9]([a-zA-Z0-9\-])*[a-zA-Z0-9]\.)*([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\.([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])$/
+  # validates :server_name, :uniqueness => { :case_sensitive => false }, :format => { :with => SERVER_NAME_REGEX, :multiline => true}
+  
   SERVER_NAME_REGEX = /\A(\*\.)?([a-zA-Z0-9]([a-zA-Z0-9\-])*[a-zA-Z0-9]\.)*([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\.([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\z/
-  
+
   validates :server_name, :uniqueness => { :case_sensitive => false }, :format => { :with => SERVER_NAME_REGEX }
-  
+
   validate :must_have_a_valid_list_of_server_aliases,
            :must_have_a_unencrypted_ssl_key,
            :must_have_a_well_formatted_ssl_ca_certificate,
@@ -62,7 +65,7 @@ class VHost < ActiveRecord::Base
     return unless server_aliases
   
     server_aliases.split(',').each do |server_alias|
-      errors[:server_aliases] = 'is invalid' unless server_alias =~ SERVER_NAME_REGEX
+      errors[:server_aliases] << 'is invalid' unless server_alias =~ SERVER_NAME_REGEX
     end
   end
   
@@ -106,7 +109,8 @@ class VHost < ActiveRecord::Base
     if errors.empty?
       pkey_modulo = OpenSSL::PKey::RSA.new(ssl_key).to_text.match(/modulus.*:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
       cert_modulo = OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/modulus.*:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
-      errors[:ssl_key] = 'must match the ssl certificate' unless pkey_modulo == cert_modulo
+
+      errors[:ssl_key] << 'must match the ssl certificate' unless pkey_modulo == cert_modulo
     end
   end
 
