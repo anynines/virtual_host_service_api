@@ -187,19 +187,19 @@ describe VHost do
       it 'should detect that "alias.de,a" is a invalid server aliases list' do
         vhost = FactoryBot.build(:valid_v_host, :server_aliases => "alias.de,a")
         vhost.save
-        vhost.errors[:server_aliases].first.should eq 'is invalid'
+        expect(vhost.errors[:server_aliases].first).to eq 'is invalid'
       end
       
       it 'should detect that "alias.de, " is a invalid server aliases list' do
         vhost = FactoryBot.build(:valid_v_host, :server_aliases => "alias.de, ")
         vhost.save
-        vhost.errors[:server_aliases].first.should eq 'is invalid'
+        expect(vhost.errors[:server_aliases].first).to eq 'is invalid'
       end
       
       it 'should detect that "alias.de alias.com" is a invalid server aliases list' do
         vhost = FactoryBot.build(:valid_v_host, :server_aliases => "alias.de alias.com")
         vhost.save
-        vhost.errors[:server_aliases].first.should eq 'is invalid'
+        expect(vhost.errors[:server_aliases].first).to eq 'is invalid'
       end
     end
     

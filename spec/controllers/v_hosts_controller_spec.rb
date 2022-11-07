@@ -32,6 +32,8 @@ describe VHostsController, type: :controller do
       context 'with valid params' do
       
         it 'should respond with a ok http header' do
+          FactoryBot.attributes_for(:valid_v_host)
+
           post :create, params: { access_token: api_key, vhost: FactoryBot.attributes_for(:valid_v_host) }
 
           expect(response.response_code).to eq 200
@@ -41,14 +43,14 @@ describe VHostsController, type: :controller do
           attr = FactoryBot.attributes_for(:valid_v_host)
           post :create, params: { vhost: attr, access_token: api_key }
 
-          VHost.first.server_name.should eq attr[:server_name]
+          expect(VHost.first.server_name).to eq attr[:server_name]
         end
         
         it 'should save the vHost and the server aliases' do
           attr = FactoryBot.attributes_for(:valid_v_host, :server_aliases => "alias.de,alias.com,alias.com")
           post :create, params: { vhost: attr, access_token: api_key }
           
-          VHost.first.server_aliases.should eq attr[:server_aliases]
+          expect(VHost.first.server_aliases).to eq attr[:server_aliases]
         end
       end
 
@@ -64,7 +66,7 @@ describe VHostsController, type: :controller do
           VHost.any_instance.stubs(:push_to_amqp).raises(AMQP::TCPConnectionFailed.new({}))
           post :create, params: { vhost: FactoryBot.attributes_for(:valid_v_host), access_token: api_key }
 
-          JSON.parse(response.body)['errors'].should_not be :empty
+          expect(JSON.parse(response.body)['errors']).not_to be :empty
         end
       end
       

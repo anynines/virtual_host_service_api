@@ -1,8 +1,7 @@
 class VHostsController < ApplicationController
 
   def create
-
-    vhost = VHost.new(params['v_host'])
+    vhost = VHost.new(vhost_params)
 
     if vhost.save
       render :json => vhost
