@@ -6,7 +6,7 @@ require File.join( [File.dirname(__FILE__), "..", 'config/environment' ]) unless
 require 'rspec/rails'
 require 'factory_bot'
 require 'database_cleaner'
-require 'mocha/setup'
+require 'mocha'
 require 'pp'
 
 # Requires supporting files with custom matchers and macros, etc,

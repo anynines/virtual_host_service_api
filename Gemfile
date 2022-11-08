@@ -1,16 +1,19 @@
 source 'https://rubygems.org'
 
-ruby '2.6.0'
+ruby '3.1.2'
 
 #TODO: remove and test
-gem 'rails', '~> 6'
+gem 'rails', '~> 7'
 
-# gem 'rails-api'
 gem 'eventmachine'
 gem 'amqp'
 gem 'honeybadger'
 gem 'erubis'
 gem 'listen'
+
+gem 'net-smtp'
+gem 'webrick', '~> 1.7'
+gem 'psych', '< 4'
 
 gem 'pg'
 

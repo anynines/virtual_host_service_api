@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160426105213) do
+ActiveRecord::Schema[6.1].define(:version => 20160426105213) do
 
   create_table "v_hosts", :force => true do |t|
     t.text     "ssl_certificate"

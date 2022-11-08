@@ -9,7 +9,9 @@ Bundler.require(*Rails.groups)
 module VirtualHostService
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.0
+    config.load_defaults 7.0
+
+    config.active_record.use_yaml_unsafe_load = true
 
     # Configuration for the application, engines, and railties goes here.
     #
