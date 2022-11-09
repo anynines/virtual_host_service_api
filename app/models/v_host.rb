@@ -65,7 +65,7 @@ class VHost < ActiveRecord::Base
     return unless server_aliases
   
     server_aliases.split(',').each do |server_alias|
-      errors[:server_aliases] << 'is invalid' unless server_alias =~ SERVER_NAME_REGEX
+      errors.add(:server_aliases, 'is invalid') unless server_alias =~ SERVER_NAME_REGEX
     end
   end
   
@@ -81,7 +81,7 @@ class VHost < ActiveRecord::Base
     tmp_cert = ssl_ca_certificate.gsub("\n", "")
     raise unless tmp_cert.strip =~ /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/
   rescue
-    errors[:ssl_ca_certificate] << 'is invalid'
+    errors.add(:ssl_ca_certificate, 'is invalid')
   end
   
   def must_have_a_well_formatted_ssl_certificate
@@ -92,17 +92,17 @@ class VHost < ActiveRecord::Base
     tmp_cert = ssl_certificate.gsub("\n", "")
     raise unless tmp_cert.strip =~ /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/
   rescue
-    errors[:ssl_certificate] << 'is invalid'
+    errors.add(:ssl_certificate, 'is invalid')
   end
   
   def must_have_a_unencrypted_ssl_key
-    errors[:ssl_key] << 'must be unencrypted' if ssl_key =~ /Proc-Type: 4,ENCRYPTED/
+    errors.add(:ssl_key, 'must be unencrypted') if (ssl_key =~ /Proc-Type: 4,ENCRYPTED/)
   end
   
   def must_have_a_well_formatted_ssl_key
-    OpenSSL::PKey::RSA.new(ssl_key) if errors[:ssl_key].empty?
+     OpenSSL::PKey::RSA.new(ssl_key) if errors[:ssl_key].empty?
   rescue
-    errors[:ssl_key] << 'is invalid'
+    errors.add(:ssl_key, 'is invalid')
   end
   
   def private_key_must_match_ssl_certificate
@@ -110,7 +110,7 @@ class VHost < ActiveRecord::Base
       pkey_modulo = OpenSSL::PKey::RSA.new(ssl_key).to_text.match(/modulus.*:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
       cert_modulo = OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/modulus.*:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
 
-      errors[:ssl_key] << 'must match the ssl certificate' unless pkey_modulo == cert_modulo
+      errors.add(:ssl_key, 'must match the ssl certificate') unless pkey_modulo == cert_modulo
     end
   end
 

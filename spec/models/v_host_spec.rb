@@ -58,6 +58,7 @@ describe VHost do
       it 'should trigger an error' do
         vhost = FactoryBot.build(:v_host_with_encrypted_ssl_key)
         vhost.save
+
         expect(vhost.errors[:ssl_key].first).to eq 'must be unencrypted'
       end
     end

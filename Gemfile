@@ -18,6 +18,7 @@ gem 'psych', '< 4'
 gem 'pg'
 
 group :test do
+  gem 'byebug'
   gem 'rspec-rails'
   gem "factory_bot_rails", "~> 4.0"
   gem 'mocha', :require => false
