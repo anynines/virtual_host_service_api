@@ -1,6 +1,8 @@
 require 'openssl'
 require 'pp'
 
+
+
 ##
 # This class is to initialize with a SSL certificate, an unencrypted ssl key and
 # a optional ca certificate.
@@ -26,7 +28,9 @@ class VHost < ActiveRecord::Base
            :must_have_a_well_formatted_ssl_certificate,
            :must_have_a_well_formatted_ssl_key,
            :private_key_must_match_ssl_certificate
-  
+
+  encrypts :ssl_certificate, :ssl_ca_certificate, :ssl_key
+
   def save
     if valid?
       push_to_amqp
@@ -68,8 +72,8 @@ class VHost < ActiveRecord::Base
   
   def must_have_a_well_formatted_ssl_ca_certificate
     
-    # The ca certificate is optional
-    return if ssl_ca_certificate.blank?     
+    # The ca certificate is no longer optional
+    raise if ssl_ca_certificate.blank?
 
     OpenSSL::X509::Certificate.new(ssl_ca_certificate)
 
@@ -104,10 +108,10 @@ class VHost < ActiveRecord::Base
   
   def private_key_must_match_ssl_certificate
     if errors.empty?
-      pkey_modulo = OpenSSL::PKey::RSA.new(ssl_key).to_text.match(/modulus.*:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
-      cert_modulo = OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/modulus.*:((\s*([a-z0-9][a-z0-9]:)+(([a-z0-9][a-z0-9]:)|([a-z0-9][a-z0-9])))*)/i)[1].gsub(/[\n\s]/, '')
+      key = OpenSSL::PKey::RSA.new ssl_key
+      cert = OpenSSL::X509::Certificate.new ssl_certificate
 
-      errors.add(:ssl_key, 'must match the ssl certificate') unless pkey_modulo == cert_modulo
+      errors.add(:ssl_key, 'must match the ssl certificate') unless cert.check_private_key key
     end
   end
 
