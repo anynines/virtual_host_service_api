@@ -11,6 +11,14 @@ describe VHost do
         expect(vhost.errors).to be_empty
       end
 
+      it 'should encrypt valid vhosts ssl attributes' do
+        vhost = FactoryBot.build(:valid_v_host)
+        expect(vhost.save).to be true
+        expect(vhost.encrypted_attribute?(:ssl_certificate)).to be true
+        expect(vhost.encrypted_attribute?(:ssl_ca_certificate)).to be true
+        expect(vhost.encrypted_attribute?(:ssl_key)).to be true
+      end
+
       it 'should push a valid vhost to RabbitMQ' do
         # pending
       end
@@ -26,10 +34,10 @@ describe VHost do
      
     context 'with a blank ssl ca certificate' do
       
-      it 'should save the vhost' do
+      it 'should not save' do
         vhost = FactoryBot.build(:valid_v_host_without_ca_cert)
-        expect(vhost.save).to be true
-        expect(vhost.errors).to be_empty
+        vhost.save
+        expect(vhost.errors[:ssl_ca_certificate].first).to eq 'is invalid'
       end
       
     end
