@@ -17,7 +17,6 @@ require 'pp'
 # the ssl certificate working.
 #
 class VHost < ActiveRecord::Base
-  
   SERVER_NAME_REGEX = /\A(\*\.)?([a-zA-Z0-9]([a-zA-Z0-9\-])*[a-zA-Z0-9]\.)*([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\.([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\z/
 
   validates :server_name, :uniqueness => { :case_sensitive => false }, :format => { :with => SERVER_NAME_REGEX }
@@ -87,7 +86,6 @@ class VHost < ActiveRecord::Base
   
   def must_have_a_well_formatted_ssl_certificate
     OpenSSL::X509::Certificate.new(ssl_certificate)
-
     #the certificate should start with "-----BEGIN CERTIFICATE-----"
     #and end with "-----END CERTIFICATE-----"
     tmp_cert = ssl_certificate.gsub("\n", "")
@@ -101,15 +99,30 @@ class VHost < ActiveRecord::Base
   end
   
   def must_have_a_well_formatted_ssl_key
-     OpenSSL::PKey::RSA.new(ssl_key) if errors[:ssl_key].empty?
+    tmp_cert = ssl_key.gsub("\n", "")
+    tmp_cert.strip =~ /^-+BEGIN EC PRIVATE KEY(.*)END EC PRIVATE KEY-+$/
+
+    if tmp_cert.strip =~ /^-+BEGIN EC PRIVATE KEY(.*)END EC PRIVATE KEY-+$/
+      OpenSSL::PKey::EC.new(ssl_key) if errors[:ssl_key].empty?
+    else
+      OpenSSL::PKey::RSA.new(ssl_key) if errors[:ssl_key].empty?
+    end
   rescue
     errors.add(:ssl_key, 'is invalid')
   end
   
   def private_key_must_match_ssl_certificate
     if errors.empty?
-      key = OpenSSL::PKey::RSA.new ssl_key
       cert = OpenSSL::X509::Certificate.new ssl_certificate
+      
+      tmp_cert = ssl_key.gsub("\n", "")
+      tmp_cert.strip =~ /^-+BEGIN EC PRIVATE KEY(.*)END EC PRIVATE KEY-+$/
+      
+      if tmp_cert.strip =~ /^-+BEGIN EC PRIVATE KEY(.*)END EC PRIVATE KEY-+$/
+        key = OpenSSL::PKey::EC.new(ssl_key) if errors[:ssl_key].empty?
+      else
+        key = OpenSSL::PKey::RSA.new(ssl_key) if errors[:ssl_key].empty?
+      end
 
       errors.add(:ssl_key, 'must match the ssl certificate') unless cert.check_private_key key
     end
