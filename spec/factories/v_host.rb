@@ -15,7 +15,13 @@ ga0gZvkpflxiJs6zFTnwx/ficAcHWDngY+d5m78CUUS6Agh8a6r8+TbishLzv5Xi
 7SafqACgm2JJN+2VDmY3AkBefIidvB3re7rBkUa/7x0AzXE1KIqDTHsyA1+Zw/+5
 DVyMxqPfW1XvQj5Vx2naUio7gy3zg5Y+v7+LbJY2g7Cc
 -----END RSA PRIVATE KEY-----"
-  
+
+  PLAIN_EC_KEY = "-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIC3odLXI6WX/sXfl4efDMbiO8OsiEnZ8Dq2Ytf0gM51QoAoGCCqGSM49
+AwEHoUQDQgAEieyA//XY5uhzSraJTrYopWHrZB/XV637QocPNH8OxIQuoD0+ypKV
+m0EU8ggfqVxOy9H7ipowzKkZhF4TxOSeRg==
+-----END EC PRIVATE KEY-----"
+
   ENCRYPTED_RSA_KEY = "-----BEGIN RSA PRIVATE KEY-----
 Proc-Type: 4,ENCRYPTED
 DEK-Info: DES-EDE3-CBC,9963545876551D27
@@ -34,7 +40,16 @@ Lne7a61QnVz0ZccboQiqmB2TUUFAjNdzy97RqvHaqTvpe3ycJe1jDNoQ+MmxDqwB
 PDDpNGSHUwlp3EzA0pEswC23vCyXMm6tWVb5CDSpxDQ3cahEPd4hI2yg37AOyEQU
 kSCRlv+2Wm9Csu0Yvw74/4DiaTTGy8d0mglVDs/rYB3QUy6aT/Ya1g==
 -----END RSA PRIVATE KEY-----"
-  
+
+  ENCRYPTED_EC_KEY = "-----BEGIN EC PRIVATE KEY-----
+Proc-Type: 4,ENCRYPTED
+DEK-Info: AES-256-CBC,84230478DFF08EFD212D0C2D3ECB9A86
+
+n2nqKoJz7duSxdWnRGiCPLW2Pr+oLmWiGVtCqXTcKRWfR17r9gtP9V24n4+025D9
+/vRlpEWGGxHfHLFwq+nHszN4bQsU/G+QPKt7PwISlQ/XSl4FVkML1NOUQzVug/Lv
+Rsz7a+gaIuhjz4eos8eQI2k3ZiqOAnRMjRjrPk9XD5w=
+-----END EC PRIVATE KEY-----"
+
   INVALID_RSA_KEY = "-----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQCYYrlPEKhz5ZPhxKXLvOtQR4FQ1EzpI3Kkx5lgXDmn8pIXwlKy
 3uoFNTR4ANc9r4sbl/O0QhKh2/fcMFrqwhHO/cnPvSxtlWupIbgvl/MRB/f1tKrp
@@ -47,6 +62,8 @@ ga0gZvkpflxiJs6zFTnwx/ficAcHWDngY+d5m78CUUS6Agh8a6r8+TbishLzv5Xi
 7SafqACgm2JJN+2VDmY3AkBefIidvB3re7rBkUa/7x0AzXE1KIqDTHsyA1+Zw/+5
 DVyMxqPfW1XvQj5Vx2naUio7gy3zg5Y+v7+LbJY2g7Cc
 -----END RSA PRIVATE KEY-----"
+
+  INVALID_EC_KEY = ""
   
   VALID_SSL_CERTIFICATE = "-----BEGIN CERTIFICATE-----
 MIID1DCCAbwCAQEwDQYJKoZIhvcNAQEFBQAwgYgxCzAJBgNVBAYTAkRFMREwDwYD
@@ -72,6 +89,20 @@ nenMSGo4crCtBmTLWtqxhuizKD7OEEenXOUeGCDeDDGZOOgCcw9oVk5ZErhndTqR
 7BeVZ1Q+foNw3Yl5o46J5K5AvIulzMCP
 -----END CERTIFICATE-----"
 
+ VALID_EC_SSL_CERTIFICATE = "-----BEGIN CERTIFICATE-----
+MIIB+DCCAZ4CAQEwCgYIKoZIzj0EAwIwgZMxCzAJBgNVBAYTAkRFMREwDwYDVQQI
+DAhTYWFybGFuZDEVMBMGA1UEBwwMU2FhcmJydWVja2VuMREwDwYDVQQKDAhhbnlu
+aW5lczENMAsGA1UECwwEQ05BRDENMAsGA1UEAwwEdGVzdDEpMCcGCSqGSIb3DQEJ
+ARYac2tyZXR6c2NobWFubkBhbnluaW5lcy5jb20wHhcNMjMwMTEwMjI0MjA2WhcN
+MjQwMTEwMjI0MjA2WjB8MQswCQYDVQQGEwJERTERMA8GA1UECAwIU2FhcmxhbmQx
+ETAPBgNVBAoMCGFueW5pbmVzMQ0wCwYDVQQLDARDTkFEMQ0wCwYDVQQDDAR0ZXN0
+MSkwJwYJKoZIhvcNAQkBFhpza3JldHpzY2htYW5uQGFueW5pbmVzLmNvbTBZMBMG
+ByqGSM49AgEGCCqGSM49AwEHA0IABInsgP/12Oboc0q2iU62KKVh62Qf11et+0KH
+DzR/DsSELqA9PsqSlZtBFPIIH6lcTsvR+4qaMMypGYReE8TknkYwCgYIKoZIzj0E
+AwIDSAAwRQIhAN/d7W8tANLa3yyeVU5zgTEfQKufXPT8BME3Ftd8EFQcAiBj8M/e
+l5Vzcrh/aiiS6IS/1uZSyRPAx+vLbv1SlJONdw==
+-----END CERTIFICATE-----"
+
   SSL_CERTIFICATE_WITH_USELESS_APPENDING = "-----BEGIN CERTIFICATE-----
 MIID1DCCAbwCAQEwDQYJKoZIhvcNAQEFBQAwgYgxCzAJBgNVBAYTAkRFMREwDwYD
 VQQIEwhTYWFybGFuZDEVMBMGA1UEBxMMU2FhcmJydWVja2VuMQ0wCwYDVQQKEwRh
@@ -94,6 +125,24 @@ mcnrksdX9+yqwtT5uev/7PXM6IdMTB+VxW6n0fiNa/nhMApDmHvVrxSSaht7QxiY
 9T/X2Hd8SgTZAjeTbgTqxvhyAh1Y24ti6yIvUj35oZUlg5teO6W9LQOSklHgy7MH
 nenMSGo4crCtBmTLWtqxhuizKD7OEEenXOUeGCDeDDGZOOgCcw9oVk5ZErhndTqR
 7BeVZ1Q+foNw3Yl5o46J5K5AvIulzMCP
+-----END CERTIFICATE-----
+adsf
+adf
+ad
+adsf"
+
+SSL_EC_CERTIFICATE_WITH_USELESS_APPENDING = "-----BEGIN CERTIFICATE-----
+MIIB+DCCAZ4CAQEwCgYIKoZIzj0EAwIwgZMxCzAJBgNVBAYTAkRFMREwDwYDVQQI
+DAhTYWFybGFuZDEVMBMGA1UEBwwMU2FhcmJydWVja2VuMREwDwYDVQQKDAhhbnlu
+aW5lczENMAsGA1UECwwEQ05BRDENMAsGA1UEAwwEdGVzdDEpMCcGCSqGSIb3DQEJ
+ARYac2tyZXR6c2NobWFubkBhbnluaW5lcy5jb20wHhcNMjMwMTEwMjI0MjA2WhcN
+MjQwMTEwMjI0MjA2WjB8MQswCQYDVQQGEwJERTERMA8GA1UECAwIU2FhcmxhbmQx
+ETAPBgNVBAoMCGFueW5pbmVzMQ0wCwYDVQQLDARDTkFEMQ0wCwYDVQQDDAR0ZXN0
+MSkwJwYJKoZIhvcNAQkBFhpza3JldHpzY2htYW5uQGFueW5pbmVzLmNvbTBZMBMG
+ByqGSM49AgEGCCqGSM49AwEHA0IABInsgP/12Oboc0q2iU62KKVh62Qf11et+0KH
+DzR/DsSELqA9PsqSlZtBFPIIH6lcTsvR+4qaMMypGYReE8TknkYwCgYIKoZIzj0E
+AwIDSAAwRQIhAN/d7W8tANLa3yyeVU5zgTEfQKufXPT8BME3Ftd8EFQcAiBj8M/e
+l5Vzcrh/aiiS6IS/1uZSyRPAx+vLbv1SlJONdw==
 -----END CERTIFICATE-----
 adsf
 adf
@@ -142,6 +191,8 @@ mcnrksdX9+yqwtT5uev/7PXM6IdMTB+VxW6n0fiNa/nhMApDmHvVrxSSaht7QxiY
 nenMSGo4crCtBmTLWtqxhuizKD7OEEenXOUeGCDeDDGZOOgCcw9oVk5ZErhndTqR
 7BeVZ1Q+foNw3Yl5o46J5K5AvIulzMCP
 -----END CERTIFICATE-----"
+
+  INVALID_EC_SSL_CERTIFICATE = ""
   
   VALID_CA_CERTIFICATE = "-----BEGIN CERTIFICATE-----
 MIIGhjCCBG6gAwIBAgIJAKrMa3+Wsy4NMA0GCSqGSIb3DQEBBQUAMIGIMQswCQYD
@@ -180,6 +231,23 @@ y5bydI3gEiLjJEMHrvnVN5BhfyWXlJjJJWmWlDR/RcspoaTDo3671sKsx/hLgVd9
 9hJLoJF0gAcQOMe21nM1sHuiYAlgS1gEwdND6PEcz2OSNQzkmipscMtIpN0CWqlI
 NZbleCAVFndhuSHuLxU27IhCvh/zb9XcBfMLaH7ul03XO7SHqzASCxwZ
 -----END CERTIFICATE-----"
+
+  VALID_EC_CA_CERTIFICATE = "-----BEGIN CERTIFICATE-----
+MIICczCCAhigAwIBAgIJAOJv0GX5/Ox9MAoGCCqGSM49BAMCMIGTMQswCQYDVQQG
+EwJERTERMA8GA1UECAwIU2FhcmxhbmQxFTATBgNVBAcMDFNhYXJicnVlY2tlbjER
+MA8GA1UECgwIYW55bmluZXMxDTALBgNVBAsMBENOQUQxDTALBgNVBAMMBHRlc3Qx
+KTAnBgkqhkiG9w0BCQEWGnNrcmV0enNjaG1hbm5AYW55bmluZXMuY29tMB4XDTIz
+MDExMDIyMjY1MVoXDTMzMDEwNzIyMjY1MVowgZMxCzAJBgNVBAYTAkRFMREwDwYD
+VQQIDAhTYWFybGFuZDEVMBMGA1UEBwwMU2FhcmJydWVja2VuMREwDwYDVQQKDAhh
+bnluaW5lczENMAsGA1UECwwEQ05BRDENMAsGA1UEAwwEdGVzdDEpMCcGCSqGSIb3
+DQEJARYac2tyZXR6c2NobWFubkBhbnluaW5lcy5jb20wWTATBgcqhkjOPQIBBggq
+hkjOPQMBBwNCAARmxYSsIbk2GThe7kTnYi2A1mqBzw9BvsVWYPxuMLBREfejlhxj
+N5dSCxLXma6P2BVHwsns9iaQ/wNcsG6gZpvjo1MwUTAdBgNVHQ4EFgQUoTVuDvo9
+KocYEytn0PFQustJwVUwHwYDVR0jBBgwFoAUoTVuDvo9KocYEytn0PFQustJwVUw
+DwYDVR0TAQH/BAUwAwEB/zAKBggqhkjOPQQDAgNJADBGAiEArrgvuDkPLpdi170K
+qwaksoksZkcPg0hK0mj6ca4GTWcCIQCP0qKZiNMljeZFt19Dx7NSSFpU43H0N/jg
+r02BNRy8Mg==
+-----END CERTIFICATE-----"
   
   INVALID_CA_CERTIFICATE = "----RTIFICATE-----
 MIIGhjCCBG6gAwIBAgIJAKrMa3+Wsy4NMA0GCSqGSIb3DQEBBQUAMIGIMQswCQYD
@@ -217,6 +285,23 @@ y5bydI3gEiLjJEMHrvnVN5BhfyWXlJjJJWmWlDR/RcspoaTDo3671sKsx/hLgVd9
 9IY9cn62EusnCZbdwTdSULavS/hWD5FwWBg/RSzgHt7dCZ4vDf4cKnD2a8UzMNv9
 9hJLoJF0gAcQOMe21nM1sHuiYAlgS1gEwdND6PEcz2OSNQzkmipscMtIpN0CWqlI
 NZbleCAVFndhuSHuLxU27IhCvh/zb9XcBfMLaH7ul03XO7SHqzASCxwZ
+-----END CERTIFICATE-----"
+
+  INVALID_EC_CA_CERTIFICATE = "-----CERTIFICATE-----
+MIICczCCAhigAwIBAgIJAOJv0GX5/Ox9MAoGCCqGSM49BAMCMIGTMQswCQYDVQQG
+EwJERTERMA8GA1UECAwIU2FhcmxhbmQxFTATBgNVBAcMDFNhYXJicnVlY2tlbjER
+MA8GA1UECgwIYW55bmluZXMxDTALBgNVBAsMBENOQUQxDTALBgNVBAMMBHRlc3Qx
+KTAnBgkqhkiG9w0BCQEWGnNrcmV0enNjaG1hbm5AYW55bmluZXMuY29tMB4XDTIz
+MDExMDIyMjY1MVoXDTMzMDEwNzIyMjY1MVowgZMxCzAJBgNVBAYTAkRFMREwDwYD
+VQQIDAhTYWFybGFuZDEVMBMGA1UEBwwMU2FhcmJydWVja2VuMREwDwYDVQQKDAhh
+bnluaW5lczENMAsGA1UECwwEQ05BRDENMAsGA1UEAwwEdGVzdDEpMCcGCSqGSIb3
+DQEJARYac2tyZXR6c2NobWFubkBhbnluaW5lcy5jb20wWTATBgcqhkjOPQIBBggq
+hkjOPQMBBwNCAARmxYSsIbk2GThe7kTnYi2A1mqBzw9BvsVWYPxuMLBREfejlhxj
+N5dSCxLXma6P2BVHwsns9iaQ/wNcsG6gZpvjo1MwUTAdBgNVHQ4EFgQUoTVuDvo9
+KocYEytn0PFQustJwVUwHwYDVR0jBBgwFoAUoTVuDvo9KocYEytn0PFQustJwVUw
+DwYDVR0TAQH/BAUwAwEB/zAKBggqhkjOPQQDAgNJADBGAiEArrgvuDkPLpdi170K
+qwaksoksZkcPg0hK0mj6ca4GTWcCIQCP0qKZiNMljeZFt19Dx7NSSFpU43H0N/jg
+r02BNRy8Mg==
 -----END CERTIFICATE-----"
 
   VALID_CERTIFICATE_WITH_ONE_SUBJECT_ALT_NAME = "-----BEGIN CERTIFICATE-----
@@ -318,6 +403,14 @@ YGixHCwXW0s/3aHDWA==
     ssl_key { PLAIN_RSA_KEY }
   end
 
+  factory :ec_valid_v_host, :class => VHost do
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_EC_SSL_CERTIFICATE }
+    ssl_ca_certificate { VALID_EC_CA_CERTIFICATE }
+    ssl_key { PLAIN_EC_KEY }
+  end
+
   factory :valid_v_host_without_ca_cert, :class => VHost do
     server_name { "example.de" }
     organization_guid { "a-valid-org-guid" }
@@ -325,7 +418,15 @@ YGixHCwXW0s/3aHDWA==
     ssl_ca_certificate {""}
     ssl_key { PLAIN_RSA_KEY }
   end
-  
+
+  factory :ec_valid_v_host_without_ca_cert, :class => VHost do
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_EC_SSL_CERTIFICATE }
+    ssl_ca_certificate { "" }
+    ssl_key { PLAIN_EC_KEY }
+  end
+
   factory :v_host_with_encrypted_ssl_key, :class => VHost do
     server_name { "example.de" }
     organization_guid { "a-valid-org-guid" }
@@ -333,7 +434,14 @@ YGixHCwXW0s/3aHDWA==
     ssl_ca_certificate { VALID_CA_CERTIFICATE }
     ssl_key { ENCRYPTED_RSA_KEY }
   end
-  
+  factory :ec_v_host_with_encrypted_ssl_key, :class => VHost do
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_EC_SSL_CERTIFICATE }
+    ssl_ca_certificate { "" }
+    ssl_key { ENCRYPTED_EC_KEY }
+  end
+
   factory :v_host_with_invalid_ssl_key, :class => VHost do
     server_name { "example.de" }
     organization_guid { "a-valid-org-guid" }
@@ -341,13 +449,29 @@ YGixHCwXW0s/3aHDWA==
     ssl_ca_certificate { VALID_CA_CERTIFICATE }
     ssl_key { INVALID_RSA_KEY }
   end
-  
+
+  factory :ec_v_host_with_invalid_ssl_key, :class => VHost do
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_EC_SSL_CERTIFICATE }
+    ssl_ca_certificate { VALID_CA_CERTIFICATE }
+    ssl_key { INVALID_EC_KEY }
+  end
+
   factory :v_host_with_invalid_ssl_certificate, :class => VHost do
     server_name { "example.de" }
     organization_guid { "a-valid-org-guid" }
     ssl_certificate { INVALID_SSL_CERTIFICATE }
     ssl_ca_certificate { VALID_CA_CERTIFICATE }
     ssl_key { PLAIN_RSA_KEY }
+  end
+
+  factory :ec_v_host_with_invalid_ssl_certificate, :class => VHost do
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { INVALID_EC_SSL_CERTIFICATE }
+    ssl_ca_certificate { VALID_EC_CA_CERTIFICATE }
+    ssl_key { PLAIN_EC_KEY }
   end
   
   factory :v_host_with_invalid_ssl_ca_certificate, :class => VHost do
@@ -356,6 +480,14 @@ YGixHCwXW0s/3aHDWA==
     ssl_certificate { VALID_SSL_CERTIFICATE }
     ssl_ca_certificate { INVALID_CA_CERTIFICATE }
     ssl_key { PLAIN_RSA_KEY }
+  end
+
+  factory :ec_v_host_with_invalid_ssl_ca_certificate, :class => VHost do
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { VALID_SSL_CERTIFICATE }
+    ssl_ca_certificate { INVALID_EC_CA_CERTIFICATE }
+    ssl_key { PLAIN_EC_KEY }
   end
   
   factory :v_host_with_corrupt_ssl_certificate, :class => VHost do
@@ -374,6 +506,14 @@ YGixHCwXW0s/3aHDWA==
     ssl_key { PLAIN_RSA_KEY }
   end
 
+  factory :ec_v_host_with_ssl_certificate_containing_usless_appending, :class => VHost do
+    server_name { "example.de" }
+    organization_guid { "a-valid-org-guid" }
+    ssl_certificate { SSL_EC_CERTIFICATE_WITH_USELESS_APPENDING }
+    ssl_ca_certificate { VALID_EC_CA_CERTIFICATE }
+    ssl_key { PLAIN_EC_KEY }
+  end
+
   factory :v_host_with_one_subject_alt_name, :class => VHost do
     organization_guid { "a-valid-org-guid" }
     ssl_certificate { VALID_CERTIFICATE_WITH_ONE_SUBJECT_ALT_NAME }
@@ -388,5 +528,4 @@ YGixHCwXW0s/3aHDWA==
     organization_guid { "a-valid-org-guid" }
     ssl_certificate { VALID_WILDCARD_CERTIFICATE }
   end
-
 end

@@ -11,8 +11,22 @@ describe VHost do
         expect(vhost.errors).to be_empty
       end
 
+      it 'should save a valid ECC vhost' do
+        vhost = FactoryBot.build(:ec_valid_v_host)
+        expect(vhost.save).to be true
+        expect(vhost.errors).to be_empty
+      end
+
       it 'should encrypt valid vhosts ssl attributes' do
         vhost = FactoryBot.build(:valid_v_host)
+        expect(vhost.save).to be true
+        expect(vhost.encrypted_attribute?(:ssl_certificate)).to be true
+        expect(vhost.encrypted_attribute?(:ssl_ca_certificate)).to be true
+        expect(vhost.encrypted_attribute?(:ssl_key)).to be true
+      end
+
+      it 'should encrypt valid ECC vhosts ssl attributes' do
+        vhost = FactoryBot.build(:ec_valid_v_host)
         expect(vhost.save).to be true
         expect(vhost.encrypted_attribute?(:ssl_certificate)).to be true
         expect(vhost.encrypted_attribute?(:ssl_ca_certificate)).to be true
@@ -40,11 +54,22 @@ describe VHost do
         expect(vhost.errors[:ssl_ca_certificate].first).to eq 'is invalid'
       end
       
+      it 'should not save ECC vhost' do
+        vhost = FactoryBot.build(:ec_valid_v_host_without_ca_cert)
+        vhost.save
+        expect(vhost.errors[:ssl_ca_certificate].first).to eq 'is invalid'
+      end
     end
 
     context 'with any invalid attribute' do
       it 'should not push data to the RabbitMQ' do
         vhost = FactoryBot.build(:v_host_with_invalid_ssl_key)
+        vhost.expects(:push_to_amqp).never
+        vhost.save
+      end
+
+      it 'should not push EC data to the RabbitMQ' do
+        vhost = FactoryBot.build(:ec_v_host_with_invalid_ssl_key)
         vhost.expects(:push_to_amqp).never
         vhost.save
       end
@@ -69,11 +94,24 @@ describe VHost do
 
         expect(vhost.errors[:ssl_key].first).to eq 'must be unencrypted'
       end
+
+      it 'should trigger an error for ECC' do
+        vhost = FactoryBot.build(:ec_v_host_with_encrypted_ssl_key)
+        vhost.save
+
+        expect(vhost.errors[:ssl_key].first).to eq 'must be unencrypted'
+      end
     end
     
     context 'with an invalid ssl key' do
       it 'should trigger an error' do
         vhost = FactoryBot.build(:v_host_with_invalid_ssl_key)
+        vhost.save
+        expect(vhost.errors[:ssl_key].first).to eq 'is invalid'
+      end
+
+      it 'should trigger an error for ECC' do
+        vhost = FactoryBot.build(:ec_v_host_with_invalid_ssl_key)
         vhost.save
         expect(vhost.errors[:ssl_key].first).to eq 'is invalid'
       end
@@ -85,12 +123,24 @@ describe VHost do
         vhost.save
         expect(vhost.errors[:ssl_certificate].first).to eq 'is invalid'
       end
+
+      it 'should trigger an error for ECC' do
+        vhost = FactoryBot.build(:ec_v_host_with_invalid_ssl_certificate)
+        vhost.save
+        expect(vhost.errors[:ssl_certificate].first).to eq 'is invalid'
+      end
     end
 
     context 'with an ssl certificate containing useless appending' do
       it 'should trigger an error' do
-
         vhost = FactoryBot.build(:v_host_with_ssl_certificate_containing_usless_appending)
+
+        vhost.save
+        expect(vhost.errors[:ssl_certificate].first).to eq 'is invalid'
+      end
+
+      it 'should trigger an error for ECC' do
+        vhost = FactoryBot.build(:ec_v_host_with_ssl_certificate_containing_usless_appending)
 
         vhost.save
         expect(vhost.errors[:ssl_certificate].first).to eq 'is invalid'
@@ -103,6 +153,12 @@ describe VHost do
         vhost.save
         expect(vhost.errors[:ssl_ca_certificate].first).to eq 'is invalid'
       end
+
+      it 'should trigger an error for ECC' do
+        vhost = FactoryBot.build(:ec_v_host_with_invalid_ssl_ca_certificate)
+        vhost.save
+        expect(vhost.errors[:ssl_ca_certificate].first).to eq 'is invalid'
+      end
     end
     
     context 'with a different modulo in the ssl certificate and the ssl key' do
@@ -111,11 +167,22 @@ describe VHost do
         vhost.save
         expect(vhost.errors[:ssl_key].first).to eq 'must match the ssl certificate'
       end
+
     end
     
     context 'with an already existing server name' do
       it 'should trigger an error' do
         vhost = FactoryBot.create(:valid_v_host)
+        vhost.server_name.capitalize!
+        vhost.save
+        
+        other_vhost = FactoryBot.build(:valid_v_host)
+        other_vhost.save
+        expect(other_vhost.errors[:server_name].first).to eq 'has already been taken'
+      end
+
+      it 'should trigger an error for ECC' do
+        vhost = FactoryBot.create(:ec_valid_v_host)
         vhost.server_name.capitalize!
         vhost.save
         
@@ -132,14 +199,32 @@ describe VHost do
         expect(vhost.errors[:server_name].first).to eq 'is invalid'
       end
       
+      it 'should detect that "host" is a invalid host name for ECC' do
+        vhost = FactoryBot.build(:ec_valid_v_host, :server_name => "host")
+        vhost.save
+        expect(vhost.errors[:server_name].first).to eq 'is invalid'
+      end
+
       it 'should detect that "host.4" is a invalid host name' do
         vhost = FactoryBot.build(:valid_v_host, :server_name => "host.4")
+        vhost.save
+        expect(vhost.errors[:server_name].first).to eq 'is invalid'
+      end
+
+      it 'should detect that "host.4" is a invalid host name for ECC' do
+        vhost = FactoryBot.build(:ec_valid_v_host, :server_name => "host.4")
         vhost.save
         expect(vhost.errors[:server_name].first).to eq 'is invalid'
       end
       
       it 'should detect that "-host" is a invalid host name' do
         vhost = FactoryBot.build(:valid_v_host, :server_name => "host.4")
+        vhost.save
+        expect(vhost.errors[:server_name].first).to eq 'is invalid'
+      end
+
+      it 'should detect that "-host" is a invalid host name for ECC' do
+        vhost = FactoryBot.build(:ec_valid_v_host, :server_name => "host.4")
         vhost.save
         expect(vhost.errors[:server_name].first).to eq 'is invalid'
       end
@@ -170,8 +255,8 @@ describe VHost do
            vhost = FactoryBot.build(:v_host_with_www_alt_name) 
            expect(vhost.server_name).to eq 'www.fancyerp.com'
         end
-        
-        it 'should set a server alias to the host without www prefix ' do
+
+        it 'should set a server alias to the host without www prefix' do
           vhost = FactoryBot.build(:v_host_with_www_alt_name) 
           expect(vhost.server_aliases).to eq 'fancyerp.com'
         end
@@ -184,9 +269,21 @@ describe VHost do
         expect(vhost.save).to be true
         expect(vhost.errors).to be_empty
       end
+
+      it 'should save the aliases for ECC' do
+        vhost = FactoryBot.build(:ec_valid_v_host, :server_aliases => "alias.de,alias.com,alias.org")
+        expect(vhost.save).to be true
+        expect(vhost.errors).to be_empty
+      end
       
       it 'should save the alias' do
         vhost = FactoryBot.build(:valid_v_host, :server_aliases => "alias.de")
+        expect(vhost.save).to be true
+        expect(vhost.errors).to be_empty
+      end
+
+      it 'should save the alias for ECC' do
+        vhost = FactoryBot.build(:ec_valid_v_host, :server_aliases => "alias.de")
         expect(vhost.save).to be true
         expect(vhost.errors).to be_empty
       end
@@ -199,14 +296,32 @@ describe VHost do
         expect(vhost.errors[:server_aliases].first).to eq 'is invalid'
       end
       
+      it 'should detect that "alias.de,a" is a invalid server aliases list for ECC' do
+        vhost = FactoryBot.build(:ec_valid_v_host, :server_aliases => "alias.de,a")
+        vhost.save
+        expect(vhost.errors[:server_aliases].first).to eq 'is invalid'
+      end
+
       it 'should detect that "alias.de, " is a invalid server aliases list' do
         vhost = FactoryBot.build(:valid_v_host, :server_aliases => "alias.de, ")
+        vhost.save
+        expect(vhost.errors[:server_aliases].first).to eq 'is invalid'
+      end
+
+      it 'should detect that "alias.de, " is a invalid server aliases list for ECC' do
+        vhost = FactoryBot.build(:ec_valid_v_host, :server_aliases => "alias.de, ")
         vhost.save
         expect(vhost.errors[:server_aliases].first).to eq 'is invalid'
       end
       
       it 'should detect that "alias.de alias.com" is a invalid server aliases list' do
         vhost = FactoryBot.build(:valid_v_host, :server_aliases => "alias.de alias.com")
+        vhost.save
+        expect(vhost.errors[:server_aliases].first).to eq 'is invalid'
+      end
+
+      it 'should detect that "alias.de alias.com" is a invalid server aliases list for ECC' do
+        vhost = FactoryBot.build(:ec_valid_v_host, :server_aliases => "alias.de alias.com")
         vhost.save
         expect(vhost.errors[:server_aliases].first).to eq 'is invalid'
       end
@@ -224,6 +339,13 @@ describe VHost do
         vhost.destroy
         expect(VHost.all.count).to be 0
       end
+
+      it 'should delete the ECC virtual host from the database' do
+        vhost = FactoryBot.build(:ec_valid_v_host)
+        vhost.save
+        vhost.destroy
+        expect(VHost.all.count).to be 0
+      end
       
       it 'should push the delete command to amqp' do 
         vhost = FactoryBot.build(:valid_v_host)
@@ -231,6 +353,11 @@ describe VHost do
         vhost.destroy
       end
       
+      it 'should push the delete command to amqp for ECC' do 
+        vhost = FactoryBot.build(:ec_valid_v_host)
+        vhost.expects(:push_destroy_to_amqp)
+        vhost.destroy
+      end
     end
   
   end
