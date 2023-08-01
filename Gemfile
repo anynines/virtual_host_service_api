@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 ruby '3.1.2'
 
-#TODO: remove and test
 gem 'rails', '~> 7'
+gem 'envyable', require: 'envyable/rails-now'
 
 gem 'eventmachine'
 gem 'amqp'

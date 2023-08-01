@@ -1,14 +1,20 @@
 development:
+  secret_key_base: ''
+  honeybadger_api_key: ''
   amqp_channel: 'virtual_host_jobs'
   api_keys:
     customer_partal: 'FGaNYNkgvQ'
 
 production:
+  secret_key_base: ''
+  honeybadger_api_key: ''
   amqp_channel: 'virtual_host_jobs'
   api_keys:
     customer_partal: 'FGaNYNkgvQ'
 
 test:
+  secret_key_base: ''
+  honeybadger_api_key: ''
   amqp_channel: 'virtual_host_jobs'
   api_keys:
     customer_partal: 'FGaNYNkgvQ'
