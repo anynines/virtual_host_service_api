@@ -1,19 +1,38 @@
 development:
-  secret_key_base: ''
+  # https://guides.rubyonrails.org/v4.1.6/upgrading_ruby_on_rails.html#config-secrets-yml
+  secret_key_base: xxx
+  # https://guides.rubyonrails.org/active_record_encryption.html
+  active_record_encryption:
+    primary_key: xxx
+    deterministic_key: xxx
+    key_derivation_salt: xxx
   honeybadger_api_key: ''
   amqp_channel: 'virtual_host_jobs'
   api_keys:
     customer_partal: 'FGaNYNkgvQ'
 
+
 production:
-  secret_key_base: ''
+  # https://guides.rubyonrails.org/v4.1.6/upgrading_ruby_on_rails.html#config-secrets-yml
+  secret_key_base: xxx
+  # https://guides.rubyonrails.org/active_record_encryption.html
+  active_record_encryption:
+    primary_key: xxx
+    deterministic_key: xxx
+    key_derivation_salt: xxx
   honeybadger_api_key: ''
   amqp_channel: 'virtual_host_jobs'
   api_keys:
     customer_partal: 'FGaNYNkgvQ'
 
 test:
-  secret_key_base: ''
+  # https://guides.rubyonrails.org/v4.1.6/upgrading_ruby_on_rails.html#config-secrets-yml
+  secret_key_base: xxx
+  # https://guides.rubyonrails.org/active_record_encryption.html
+  active_record_encryption:
+    primary_key: xxx
+    deterministic_key: xxx
+    key_derivation_salt: xxx
   honeybadger_api_key: ''
   amqp_channel: 'virtual_host_jobs'
   api_keys:
