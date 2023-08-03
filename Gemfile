@@ -15,6 +15,8 @@ gem 'net-smtp'
 gem 'webrick', '~> 1.7'
 gem 'psych', '< 4'
 
+gem 'hashie'
+
 gem 'pg'
 
 group :test do
