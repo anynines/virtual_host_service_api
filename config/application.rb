@@ -7,6 +7,12 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 
 module VirtualHostService
+  require_relative("../lib/virtual_host_service/configuration")
+
+  def self.config
+    VirtualHostService::Configuration.instance
+  end
+
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
@@ -20,5 +26,8 @@ module VirtualHostService
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.active_record.encryption.primary_key          = VirtualHostService.config['active_record_encryption']['primary_key']
+    config.active_record.encryption.deterministic_key    = VirtualHostService.config['active_record_encryption']['deterministic_key']
+    config.active_record.encryption.key_derivation_salt  = VirtualHostService.config['active_record_encryption']['key_derivation_salt']
   end
 end

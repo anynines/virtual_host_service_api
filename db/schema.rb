@@ -21,8 +21,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_07_141445) do
     t.string "server_name"
     t.string "server_aliases"
     t.string "organization_guid"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

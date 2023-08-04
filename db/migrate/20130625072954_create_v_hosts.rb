@@ -1,4 +1,4 @@
-class CreateVHosts < ActiveRecord::Migration
+class CreateVHosts < ActiveRecord::Migration[7.0]
   def change
     create_table :v_hosts do |t|
       t.string :ssl_certificate

@@ -92,6 +92,7 @@ GEM
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    hashie (5.0.0)
     honeybadger (5.0.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
@@ -194,6 +195,7 @@ DEPENDENCIES
   erubis
   eventmachine
   factory_bot_rails (~> 4.0)
+  hashie
   honeybadger
   listen
   mocha

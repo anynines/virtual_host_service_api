@@ -16,4 +16,4 @@
 # Using secret_token for rails3 compatibility. Change to secret_key_base
 # to avoid deprecation warning.
 # Can be safely removed in a rails3 api-only application.
-VirtualHostService::Application.config.secret_token = '3d8fefba0838f675d5cb8a01e253be72721b889ca662e4cdf5a6db20c360ce0471ae9a34f44bdab8cfa0ce570ec8f75ea1cd3a90b26b327e5498ffec2d52f5c9'
+VirtualHostService::Application.config.secret_token = APP_CONFIG['secret_key_base']
