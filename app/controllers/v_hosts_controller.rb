@@ -2,7 +2,6 @@ class VHostsController < ApplicationController
 
   def create
     vhost = VHost.new(vhost_params)
-
     if vhost.save
       render :json => vhost
     else
@@ -34,7 +33,7 @@ class VHostsController < ApplicationController
   private
 
   def vhost_params
-    params.require(:vhost).permit(:organization_guid, :server_name, :ssl_ca_certificate, :ssl_certificate, :ssl_key, :server_aliases)
+    params.require(:v_host).permit(:organization_guid, :server_name, :ssl_ca_certificate, :ssl_certificate, :ssl_key, :server_aliases)
   end
   
 end
