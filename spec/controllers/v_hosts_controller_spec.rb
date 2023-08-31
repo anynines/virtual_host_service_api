@@ -34,21 +34,21 @@ describe VHostsController, type: :controller do
         it 'should respond with a ok http header' do
           FactoryBot.attributes_for(:valid_v_host)
 
-          post :create, params: { access_token: api_key, vhost: FactoryBot.attributes_for(:valid_v_host) }
+          post :create, params: { access_token: api_key, v_host: FactoryBot.attributes_for(:valid_v_host) }
 
           expect(response.response_code).to eq 200
         end
         
         it 'should save the vHost' do
           attr = FactoryBot.attributes_for(:valid_v_host)
-          post :create, params: { vhost: attr, access_token: api_key }
+          post :create, params: { v_host: attr, access_token: api_key }
 
           expect(VHost.first.server_name).to eq attr[:server_name]
         end
         
         it 'should save the vHost and the server aliases' do
           attr = FactoryBot.attributes_for(:valid_v_host, :server_aliases => "alias.de,alias.com,alias.com")
-          post :create, params: { vhost: attr, access_token: api_key }
+          post :create, params: { v_host: attr, access_token: api_key }
           
           expect(VHost.first.server_aliases).to eq attr[:server_aliases]
         end
@@ -57,14 +57,14 @@ describe VHostsController, type: :controller do
       context 'with valid params and broken RabbitMQ connection' do
         it 'should respond with a server error status code' do
           VHost.any_instance.stubs(:push_to_amqp).raises(AMQP::TCPConnectionFailed.new({}))
-          post :create, params: { vhost: FactoryBot.attributes_for(:valid_v_host), access_token: api_key }
+          post :create, params: { v_host: FactoryBot.attributes_for(:valid_v_host), access_token: api_key }
 
           expect(response.response_code).to be 500
         end
     
         it 'should respond with a descriptive error message' do
           VHost.any_instance.stubs(:push_to_amqp).raises(AMQP::TCPConnectionFailed.new({}))
-          post :create, params: { vhost: FactoryBot.attributes_for(:valid_v_host), access_token: api_key }
+          post :create, params: { v_host: FactoryBot.attributes_for(:valid_v_host), access_token: api_key }
 
           expect(JSON.parse(response.body)['errors']).not_to be :empty
         end
@@ -72,13 +72,13 @@ describe VHostsController, type: :controller do
       
       context 'wiht invalid params' do
         it 'should respond with unprocessable entity http header' do
-          post :create, params: { vhost: FactoryBot.attributes_for(:v_host_with_invalid_ssl_key), access_token: api_key }
+          post :create, params: { v_host: FactoryBot.attributes_for(:v_host_with_invalid_ssl_key), access_token: api_key }
 
           expect(response.response_code).to be 422
         end
         
         it 'should respond with some descriptive error messages' do
-          post :create, params: { vhost: FactoryBot.attributes_for(:v_host_with_invalid_ssl_key), access_token: api_key }
+          post :create, params: { v_host: FactoryBot.attributes_for(:v_host_with_invalid_ssl_key), access_token: api_key }
           
           expect(JSON.parse(response.body)['errors']).not_to be :empty
         end
