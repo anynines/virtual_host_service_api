@@ -134,7 +134,7 @@ class VHost < ActiveRecord::Base
   
   # triggers a deletion of a vhost 
   def push_destroy_to_amqp
-    AMQP.start(APP_CONFIG['amqp']) do |connection|
+    AMQP.start(APP_CONFIG.amqp) do |connection|
       channel = AMQP::Channel.new(connection)
       exchange = channel.fanout(APP_CONFIG['amqp_channel'], :durable => true)
       
@@ -154,7 +154,7 @@ class VHost < ActiveRecord::Base
   # push a create vhost with a ssl cert to the amqp (rabbitmq)
   def push_to_amqp
 
-    AMQP.start(APP_CONFIG['amqp']) do |connection|
+    AMQP.start(APP_CONFIG.amqp) do |connection|
 
       channel = AMQP::Channel.new(connection)
 

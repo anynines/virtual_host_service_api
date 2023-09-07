@@ -15,6 +15,10 @@ class VirtualHostService::Configuration < Hashie::Dash
     else
       super
     end
+
+    if File.exists?(Rails.root.join('config/amqp.yml'))
+      self.raw_amqp = YAML.load(Erubis::Eruby.new(File.read(Rails.root.join('config/amqp.yml'))).result)[Rails.env]
+    end
   end
 
   property :secret_key_base, default: 'xxx'
@@ -30,7 +34,7 @@ class VirtualHostService::Configuration < Hashie::Dash
   property  :api_keys, default: {   customer_partal: 'FGaNYNkgvQ'}
 
   property(
-    :amqp, 
+    :raw_amqp, 
     default: {
       user: (JSON.parse( ENV['VCAP_SERVICES'] )['a9hcp-rabbitmq'].first['credentials']['username'] rescue ''),
       pass: (JSON.parse( ENV['VCAP_SERVICES'] )['a9hcp-rabbitmq'].first['credentials']['password'] rescue ''),
@@ -38,5 +42,9 @@ class VirtualHostService::Configuration < Hashie::Dash
       vhost: '/'
     }
   )
+
+  def amqp
+    self.raw_amqp.symbolize_keys
+  end
 
 end
