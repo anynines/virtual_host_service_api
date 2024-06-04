@@ -1,4 +1,4 @@
-VirtualHostService::Application.routes.draw do
+Rails.application.routes.draw do
 
   resources :v_hosts, :only => [:create] do
     collection do
@@ -6,5 +6,4 @@ VirtualHostService::Application.routes.draw do
       delete 'destroy_by_server_name'
     end
   end
-  
 end

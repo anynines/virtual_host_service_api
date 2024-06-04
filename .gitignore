@@ -18,3 +18,8 @@ config/application.yml
 config/database.yml
 config/amqp.yml
 manifest.yml
+
+/config/master.key
+
+# Don't check in credentials 
+config/env.yml
