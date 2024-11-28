@@ -27,7 +27,7 @@ RUN git clone https://github.com/rbenv/rbenv.git ${RBENV_ROOT} \
 RUN rbenv --version
 RUN rbenv install 3.1.2
 
-# Setup project
+# Setup rails project
 
 WORKDIR /app
 COPY Gemfile Gemfile
@@ -38,3 +38,5 @@ COPY . .
 RUN bundle install
 
 CMD bundle exec rails s -b 0.0.0.0
+
+# Run cmd to start docker container: "docker build -f Dockerfile ."
