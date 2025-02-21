@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '3.1.2'
+ruby '3.1.3'
 
-gem 'rails', '~> 7'
+gem 'rails', '~> 7.0.0'
 
 gem 'eventmachine'
 gem 'amqp'
