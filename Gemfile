@@ -18,6 +18,9 @@ gem 'hashie'
 
 gem 'pg'
 
+gem 'nokogiri', '~> 1.18.4'
+gem "rack", "~> 2.2.13"
+
 group :test do
   gem 'byebug'
   gem 'rspec-rails'
