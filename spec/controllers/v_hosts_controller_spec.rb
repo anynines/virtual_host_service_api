@@ -7,7 +7,7 @@ describe VHostsController, type: :controller do
   end
   
   let :api_key do
-    'bpiuqrhp9boej3cnoesasekr20'
+    APP_CONFIG['api_keys'].values.first
   end
   
   describe 'POST create' do
