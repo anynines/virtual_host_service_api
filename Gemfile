@@ -21,6 +21,9 @@ gem 'pg'
 gem 'nokogiri', '~> 1.18.4'
 gem "rack", "~> 2.2.13"
 
+gem "rubocop"
+gem "rubocop-rails-omakase", require: false
+
 group :test do
   gem 'byebug'
   gem 'rspec-rails'
