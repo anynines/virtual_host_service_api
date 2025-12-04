@@ -1,8 +1,8 @@
 # This file is copied to ~/spec when you run 'ruby script/generate rspec'
 # from the project root directory.
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 
-require File.join( [File.dirname(__FILE__), "..", 'config/environment' ]) unless defined?(Rails)
+require File.join([File.dirname(__FILE__), '..', 'config/environment']) unless defined?(Rails)
 require 'rspec/rails'
 require 'factory_bot'
 require 'database_cleaner'
@@ -14,17 +14,16 @@ require 'pp'
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
-
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.clean
   end
 
