@@ -1,13 +1,13 @@
-require_relative "boot"
+require_relative 'boot'
 
-require "rails/all"
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 module VirtualHostService
-  require_relative("../lib/virtual_host_service/configuration")
+  require_relative('../lib/virtual_host_service/configuration')
 
   def self.config
     VirtualHostService::Configuration.instance
