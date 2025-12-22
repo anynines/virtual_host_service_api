@@ -1,5 +1,5 @@
-FactoryBot.define do |f|
-
+  # rubocop:disable Lint/ConstantDefinitionInBlock
+FactoryBot.define do |_f|
   PLAIN_RSA_KEY = "-----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQCYYrlPEKhz5ZPhxKXLvOtQR4FQ1EzpI3Kkx5lgXDmn8pIXwlKy
 3uoFNTR4ANc9r4sbl/O0QhKh2/fcMFrqwhHO/cnPvSxtlWupIbgvl/MRB/f1tKrp
@@ -63,8 +63,8 @@ ga0gZvkpflxiJs6zFTnwx/ficAcHWDngY+d5m78CUUS6Agh8a6r8+TbishLzv5Xi
 DVyMxqPfW1XvQj5Vx2naUio7gy3zg5Y+v7+LbJY2g7Cc
 -----END RSA PRIVATE KEY-----"
 
-  INVALID_EC_KEY = ""
-  
+  INVALID_EC_KEY = ''
+
   VALID_SSL_CERTIFICATE = "-----BEGIN CERTIFICATE-----
 MIID1DCCAbwCAQEwDQYJKoZIhvcNAQEFBQAwgYgxCzAJBgNVBAYTAkRFMREwDwYD
 VQQIEwhTYWFybGFuZDEVMBMGA1UEBxMMU2FhcmJydWVja2VuMQ0wCwYDVQQKEwRh
@@ -89,7 +89,7 @@ nenMSGo4crCtBmTLWtqxhuizKD7OEEenXOUeGCDeDDGZOOgCcw9oVk5ZErhndTqR
 7BeVZ1Q+foNw3Yl5o46J5K5AvIulzMCP
 -----END CERTIFICATE-----"
 
- VALID_EC_SSL_CERTIFICATE = "-----BEGIN CERTIFICATE-----
+  VALID_EC_SSL_CERTIFICATE = "-----BEGIN CERTIFICATE-----
 MIIB+DCCAZ4CAQEwCgYIKoZIzj0EAwIwgZMxCzAJBgNVBAYTAkRFMREwDwYDVQQI
 DAhTYWFybGFuZDEVMBMGA1UEBwwMU2FhcmJydWVja2VuMREwDwYDVQQKDAhhbnlu
 aW5lczENMAsGA1UECwwEQ05BRDENMAsGA1UEAwwEdGVzdDEpMCcGCSqGSIb3DQEJ
@@ -131,7 +131,7 @@ adf
 ad
 adsf"
 
-SSL_EC_CERTIFICATE_WITH_USELESS_APPENDING = "-----BEGIN CERTIFICATE-----
+  SSL_EC_CERTIFICATE_WITH_USELESS_APPENDING = "-----BEGIN CERTIFICATE-----
 MIIB+DCCAZ4CAQEwCgYIKoZIzj0EAwIwgZMxCzAJBgNVBAYTAkRFMREwDwYDVQQI
 DAhTYWFybGFuZDEVMBMGA1UEBwwMU2FhcmJydWVja2VuMREwDwYDVQQKDAhhbnlu
 aW5lczENMAsGA1UECwwEQ05BRDENMAsGA1UEAwwEdGVzdDEpMCcGCSqGSIb3DQEJ
@@ -148,7 +148,7 @@ adsf
 adf
 ad
 adsf"
-  
+
   CORRUPT_SSL_CERTIFICATE = "-----BEGIN CERTIFICATE-----
 MIID1DCCAbwCAQEwDQYJKoZIhacNAQEFBQAwgYgxCzAJBgNVBAYTAkRFMREwDwYD
 VQQIEwhTYWFybGFuZDEVMBMGA1UEBxMMU2FhcmJydWVja2VuMQ0wCwYDVQQKEwRh
@@ -172,7 +172,7 @@ mcnrksdX9+yqwtT5uev/7PXM6adMTB+VxW6n0fiNa/nhMApDmHvVrxSSaht7QxiY
 nenMSGo4crCtBmTLWtqxhuizKD7OEEenXOUeGCDeDDGZOOgCcw9oVk5ZErhndTqR
 7BeVZ1Q+foNw3Yl5o46J5K5AvIulzMCP
 -----END CERTIFICATE-----"
-  
+
   INVALID_SSL_CERTIFICATE = "-----BEGIN CERTIFICATE-----
 MIID1DCCAbwCAQEwDQYJKoZIhvcNAQEFBQAwgYgxCzAJBgNVBAYTAkRFMREwDwYD
 VQQIEwhTYWFybGFuZDEVMBMGA1UEBxMMU2FhcmJydWVja2VuMQ0wCwYDVQQKEwRh
@@ -192,8 +192,8 @@ nenMSGo4crCtBmTLWtqxhuizKD7OEEenXOUeGCDeDDGZOOgCcw9oVk5ZErhndTqR
 7BeVZ1Q+foNw3Yl5o46J5K5AvIulzMCP
 -----END CERTIFICATE-----"
 
-  INVALID_EC_SSL_CERTIFICATE = ""
-  
+  INVALID_EC_SSL_CERTIFICATE = ''
+
   VALID_CA_CERTIFICATE = "-----BEGIN CERTIFICATE-----
 MIIGhjCCBG6gAwIBAgIJAKrMa3+Wsy4NMA0GCSqGSIb3DQEBBQUAMIGIMQswCQYD
 VQQGEwJERTERMA8GA1UECBMIU2FhcmxhbmQxFTATBgNVBAcTDFNhYXJicnVlY2tl
@@ -248,7 +248,7 @@ DwYDVR0TAQH/BAUwAwEB/zAKBggqhkjOPQQDAgNJADBGAiEArrgvuDkPLpdi170K
 qwaksoksZkcPg0hK0mj6ca4GTWcCIQCP0qKZiNMljeZFt19Dx7NSSFpU43H0N/jg
 r02BNRy8Mg==
 -----END CERTIFICATE-----"
-  
+
   INVALID_CA_CERTIFICATE = "----RTIFICATE-----
 MIIGhjCCBG6gAwIBAgIJAKrMa3+Wsy4NMA0GCSqGSIb3DQEBBQUAMIGIMQswCQYD
 VQQGEwJERTERMA8GA1UECBMIU2FhcmxhbmQxFTATBgNVBAcTDFNhYXJicnVlY2tl
@@ -394,138 +394,140 @@ UwraT6YXu1OR8fYbrT83I35c/iZ5ahnCFld1kCsP5gqZMgAgeu1af6YVxIF2YJL9
 JralMRfUuJ6/FGfjimDifIST+0pmvD7bnlgCnMkKoZwq66+sYoWhXwI0O3PQFuDS
 YGixHCwXW0s/3aHDWA==
 -----END CERTIFICATE-----"
-  
-  factory :valid_v_host, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+
+  factory :valid_v_host, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_SSL_CERTIFICATE }
     ssl_ca_certificate { VALID_CA_CERTIFICATE }
     ssl_key { PLAIN_RSA_KEY }
   end
 
-  factory :ec_valid_v_host, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :ec_valid_v_host, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_EC_SSL_CERTIFICATE }
     ssl_ca_certificate { VALID_EC_CA_CERTIFICATE }
     ssl_key { PLAIN_EC_KEY }
   end
 
-  factory :valid_v_host_without_ca_cert, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :valid_v_host_without_ca_cert, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_SSL_CERTIFICATE }
-    ssl_ca_certificate {""}
+    ssl_ca_certificate { '' }
     ssl_key { PLAIN_RSA_KEY }
   end
 
-  factory :ec_valid_v_host_without_ca_cert, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :ec_valid_v_host_without_ca_cert, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_EC_SSL_CERTIFICATE }
-    ssl_ca_certificate { "" }
+    ssl_ca_certificate { '' }
     ssl_key { PLAIN_EC_KEY }
   end
 
-  factory :v_host_with_encrypted_ssl_key, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :v_host_with_encrypted_ssl_key, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_SSL_CERTIFICATE }
     ssl_ca_certificate { VALID_CA_CERTIFICATE }
     ssl_key { ENCRYPTED_RSA_KEY }
   end
-  factory :ec_v_host_with_encrypted_ssl_key, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :ec_v_host_with_encrypted_ssl_key, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_EC_SSL_CERTIFICATE }
-    ssl_ca_certificate { "" }
+    ssl_ca_certificate { '' }
     ssl_key { ENCRYPTED_EC_KEY }
   end
 
-  factory :v_host_with_invalid_ssl_key, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :v_host_with_invalid_ssl_key, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_SSL_CERTIFICATE }
     ssl_ca_certificate { VALID_CA_CERTIFICATE }
     ssl_key { INVALID_RSA_KEY }
   end
 
-  factory :ec_v_host_with_invalid_ssl_key, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :ec_v_host_with_invalid_ssl_key, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_EC_SSL_CERTIFICATE }
     ssl_ca_certificate { VALID_CA_CERTIFICATE }
     ssl_key { INVALID_EC_KEY }
   end
 
-  factory :v_host_with_invalid_ssl_certificate, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :v_host_with_invalid_ssl_certificate, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { INVALID_SSL_CERTIFICATE }
     ssl_ca_certificate { VALID_CA_CERTIFICATE }
     ssl_key { PLAIN_RSA_KEY }
   end
 
-  factory :ec_v_host_with_invalid_ssl_certificate, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :ec_v_host_with_invalid_ssl_certificate, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { INVALID_EC_SSL_CERTIFICATE }
     ssl_ca_certificate { VALID_EC_CA_CERTIFICATE }
     ssl_key { PLAIN_EC_KEY }
   end
-  
-  factory :v_host_with_invalid_ssl_ca_certificate, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+
+  factory :v_host_with_invalid_ssl_ca_certificate, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_SSL_CERTIFICATE }
     ssl_ca_certificate { INVALID_CA_CERTIFICATE }
     ssl_key { PLAIN_RSA_KEY }
   end
 
-  factory :ec_v_host_with_invalid_ssl_ca_certificate, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :ec_v_host_with_invalid_ssl_ca_certificate, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_SSL_CERTIFICATE }
     ssl_ca_certificate { INVALID_EC_CA_CERTIFICATE }
     ssl_key { PLAIN_EC_KEY }
   end
-  
-  factory :v_host_with_corrupt_ssl_certificate, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+
+  factory :v_host_with_corrupt_ssl_certificate, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { CORRUPT_SSL_CERTIFICATE }
     ssl_ca_certificate { VALID_CA_CERTIFICATE }
     ssl_key { PLAIN_RSA_KEY }
   end
 
-  factory :v_host_with_ssl_certificate_containing_usless_appending, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :v_host_with_ssl_certificate_containing_usless_appending, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { SSL_CERTIFICATE_WITH_USELESS_APPENDING }
     ssl_ca_certificate { VALID_CA_CERTIFICATE }
     ssl_key { PLAIN_RSA_KEY }
   end
 
-  factory :ec_v_host_with_ssl_certificate_containing_usless_appending, :class => VHost do
-    server_name { "example.de" }
-    organization_guid { "a-valid-org-guid" }
+  factory :ec_v_host_with_ssl_certificate_containing_usless_appending, class: VHost do
+    server_name { 'example.de' }
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { SSL_EC_CERTIFICATE_WITH_USELESS_APPENDING }
     ssl_ca_certificate { VALID_EC_CA_CERTIFICATE }
     ssl_key { PLAIN_EC_KEY }
   end
 
-  factory :v_host_with_one_subject_alt_name, :class => VHost do
-    organization_guid { "a-valid-org-guid" }
+  factory :v_host_with_one_subject_alt_name, class: VHost do
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_CERTIFICATE_WITH_ONE_SUBJECT_ALT_NAME }
   end
 
-  factory :v_host_with_www_alt_name, :class => VHost do
-    organization_guid { "a-valid-org-guid" }
+  factory :v_host_with_www_alt_name, class: VHost do
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_CERTIFICATE_WITH_WWW_ALT_NAME }
   end
 
-  factory :v_host_with_wildcard_certificate, :class => VHost do
-    organization_guid { "a-valid-org-guid" }
+  factory :v_host_with_wildcard_certificate, class: VHost do
+    organization_guid { 'a-valid-org-guid' }
     ssl_certificate { VALID_WILDCARD_CERTIFICATE }
   end
 end
+
+# rubocop:enable Lint/ConstantDefinitionInBlock

@@ -1,8 +1,6 @@
 require 'openssl'
 require 'pp'
 
-
-
 ##
 # This class is to initialize with a SSL certificate, an unencrypted ssl key and
 # a optional ca certificate.
@@ -17,9 +15,9 @@ require 'pp'
 # the ssl certificate working.
 #
 class VHost < ActiveRecord::Base
-  SERVER_NAME_REGEX = /\A(\*\.)?([a-zA-Z0-9]([a-zA-Z0-9\-])*[a-zA-Z0-9]\.)*([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\.([A-Za-z0-9]([A-Za-z0-9\-])*[A-Za-z0-9])\z/
+  SERVER_NAME_REGEX = /\A(\*\.)?([a-zA-Z0-9]([a-zA-Z0-9-])*[a-zA-Z0-9]\.)*([A-Za-z0-9]([A-Za-z0-9-])*[A-Za-z0-9])\.([A-Za-z0-9]([A-Za-z0-9-])*[A-Za-z0-9])\z/
 
-  validates :server_name, :uniqueness => { :case_sensitive => false }, :format => { :with => SERVER_NAME_REGEX }
+  validates :server_name, uniqueness: { case_sensitive: false }, format: { with: SERVER_NAME_REGEX }
 
   validate :must_have_a_valid_list_of_server_aliases,
            :must_have_a_unencrypted_ssl_key,
@@ -31,131 +29,126 @@ class VHost < ActiveRecord::Base
   encrypts :ssl_certificate, :ssl_ca_certificate, :ssl_key
 
   def save
-    if valid?
-      push_to_amqp
-      super
-    end
+    return unless valid?
+
+    push_to_amqp
+    super
   end
-  
+
   def destroy
     push_destroy_to_amqp
     super
   end
 
   def server_name
+    self.server_name = server_name_from_ssl_certificate if super.blank?
 
-    if super.blank?
-      self.server_name = server_name_from_ssl_certificate
-    end
-
-    return super
+    super
   end
 
   def server_aliases
-    if super.blank?
-      self.server_aliases = server_aliases_from_ssl_certificate
-    end
+    self.server_aliases = server_aliases_from_ssl_certificate if super.blank?
 
-    return super
+    super
   end
-  
+
   protected
-  
+
   def must_have_a_valid_list_of_server_aliases
     return unless server_aliases
-  
+
     server_aliases.split(',').each do |server_alias|
-      errors.add(:server_aliases, 'is invalid') unless server_alias =~ SERVER_NAME_REGEX
+      errors.add(:server_aliases, 'is invalid') unless SERVER_NAME_REGEX.match?(server_alias)
     end
   end
-  
+
   def must_have_a_well_formatted_ssl_ca_certificate
-    
     # The ca certificate is no longer optional
     raise if ssl_ca_certificate.blank?
 
     OpenSSL::X509::Certificate.new(ssl_ca_certificate)
 
-    #the certificate should start with "-----BEGIN CERTIFICATE-----"
-    #and end with "-----END CERTIFICATE-----"
-    tmp_cert = ssl_ca_certificate.gsub("\n", "")
-    raise unless tmp_cert.strip =~ /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/
-  rescue
+    # the certificate should start with "-----BEGIN CERTIFICATE-----"
+    # and end with "-----END CERTIFICATE-----"
+    tmp_cert = ssl_ca_certificate.delete("\n")
+    raise unless /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/.match?(tmp_cert.strip)
+  rescue StandardError
     errors.add(:ssl_ca_certificate, 'is invalid')
   end
-  
+
   def must_have_a_well_formatted_ssl_certificate
     OpenSSL::X509::Certificate.new(ssl_certificate)
-    #the certificate should start with "-----BEGIN CERTIFICATE-----"
-    #and end with "-----END CERTIFICATE-----"
-    tmp_cert = ssl_certificate.gsub("\n", "")
-    raise unless tmp_cert.strip =~ /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/
-  rescue
+    # the certificate should start with "-----BEGIN CERTIFICATE-----"
+    # and end with "-----END CERTIFICATE-----"
+    tmp_cert = ssl_certificate.delete("\n")
+    raise unless /^-+BEGIN CERTIFICATE(.*)END CERTIFICATE-+$/.match?(tmp_cert.strip)
+  rescue StandardError
     errors.add(:ssl_certificate, 'is invalid')
   end
-  
+
   def must_have_a_unencrypted_ssl_key
-    errors.add(:ssl_key, 'must be unencrypted') if (ssl_key =~ /Proc-Type: 4,ENCRYPTED/)
+    errors.add(:ssl_key, 'must be unencrypted') if /Proc-Type: 4,ENCRYPTED/.match?(ssl_key)
   end
-  
+
   def must_have_a_well_formatted_ssl_key
     OpenSSL::PKey.read ssl_key if errors[:ssl_key].empty?
-  rescue
+  rescue StandardError
     errors.add(:ssl_key, 'is invalid')
   end
-  
-  def private_key_must_match_ssl_certificate
-    if errors.empty?
-      cert = OpenSSL::X509::Certificate.new ssl_certificate
-      key = OpenSSL::PKey.read ssl_key if errors[:ssl_key].empty?
 
-      errors.add(:ssl_key, 'must match the ssl certificate') unless cert.check_private_key key
-    end
+  def private_key_must_match_ssl_certificate
+    return unless errors.empty?
+
+    cert = OpenSSL::X509::Certificate.new ssl_certificate
+    key = OpenSSL::PKey.read ssl_key if errors[:ssl_key].empty?
+
+    errors.add(:ssl_key, 'must match the ssl certificate') unless cert.check_private_key key
   end
 
   def server_name_from_ssl_certificate
-    OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/^\s*Subject\: .*CN=(.*)/)[1].split('/').first
+    OpenSSL::X509::Certificate.new(ssl_certificate).to_text.match(/^\s*Subject: .*CN=(.*)/)[1].split('/').first
   rescue OpenSSL::X509::CertificateError
     nil
   end
 
   def server_aliases_from_ssl_certificate
-    results = dns_alt_names_from_ssl_certificate.delete_if { |x| x.downcase == self.server_name.downcase }
+    results = dns_alt_names_from_ssl_certificate.delete_if { |x| x.downcase == server_name.downcase }
     return nil if results.empty?
+
     results * ','
   end
 
   def dns_alt_names_from_ssl_certificate
-    subject_alt_names = OpenSSL::X509::Certificate.new(ssl_certificate).extensions.detect { |x| x.to_s =~ /.*subjectAltName.*/ }  
-    subject_alt_names.value.split(",").map { |x| x.strip }.select { |x| x =~ /^DNS\:/ }.map { |x| x[4..-1] }
-  rescue
+    subject_alt_names = OpenSSL::X509::Certificate.new(ssl_certificate).extensions.detect do |x|
+      x.to_s =~ /.*subjectAltName.*/
+    end
+    subject_alt_names.value.split(',').map { |x| x.strip }.select { |x| x =~ /^DNS:/ }.map { |x| x[4..-1] }
+  rescue StandardError
     []
   end
-  
-  # triggers a deletion of a vhost 
+
+  # triggers a deletion of a vhost
   def push_destroy_to_amqp
     AMQP.start(APP_CONFIG.amqp) do |connection|
       channel = AMQP::Channel.new(connection)
-      exchange = channel.fanout(APP_CONFIG['amqp_channel'], :durable => true)
-      
+      exchange = channel.fanout(APP_CONFIG['amqp_channel'], durable: true)
+
       payload = {
-        :action => 'delete',
-        :server_name => server_name
+        action: 'delete',
+        server_name: server_name
       }
-      
-      exchange.publish(payload.to_json, :persistent => true) do
+
+      exchange.publish(payload.to_json, persistent: true) do
         connection.close { EventMachine.stop }
       end
     end
-    
-    return true
+
+    true
   end
-  
+
   # push a create vhost with a ssl cert to the amqp (rabbitmq)
   def push_to_amqp
-
     AMQP.start(APP_CONFIG.amqp) do |connection|
-
       channel = AMQP::Channel.new(connection)
 
       channel.on_connection_interruption do |ch|
@@ -163,18 +156,17 @@ class VHost < ActiveRecord::Base
         EventMachine.stop
       end
 
-      exchange = channel.fanout(APP_CONFIG['amqp_channel'], :durable => true)
+      exchange = channel.fanout(APP_CONFIG['amqp_channel'], durable: true)
       exchange.on_connection_interruption do |ex|
         puts "--> Exchange #{ex.name} detected connection interruption"
         EventMachine.stop
-      end 
+      end
 
-      exchange.publish(attributes.to_json.gsub('\r\n', '\n'), :persistent => true) do
+      exchange.publish(attributes.to_json.gsub('\r\n', '\n'), persistent: true) do
         connection.close { EventMachine.stop }
       end
     end
 
-    return true
+    true
   end
-  
 end
