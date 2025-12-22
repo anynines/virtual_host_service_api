@@ -30,7 +30,7 @@ RSpec.configure do |config|
   # Transactional Fixtures don't work with sqlite.
   config.use_transactional_fixtures = false
   config.use_instantiated_fixtures  = false
-  config.fixture_path = "#{File.dirname(__FILE__)}/fixtures"
+  config.fixture_paths = "#{File.dirname(__FILE__)}/fixtures"
   config.infer_base_class_for_anonymous_controllers = true
 
   config.mock_with :mocha
