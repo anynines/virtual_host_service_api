@@ -6,11 +6,11 @@ on:
 
 jobs:
   lint:
-    uses: ./.github/actions/linter_ruby.yml
+    uses: ./.github/actions/linter_ruby.yml@master
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
 
   sast:
-    uses: ./.github/actions/sast_ruby.yml
+    uses: ./.github/actions/sast_ruby.yml@master
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
