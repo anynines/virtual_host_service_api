@@ -1,16 +1,54 @@
-name: Lint and SAST
-
 on:
   pull_request:
   workflow_dispatch:
 
 jobs:
-  lint:
-    uses: ./.github/actions/linter_ruby.yml@master
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+  rubocop:
+    runs-on: ubuntu-latest
 
-  sast:
-    uses: ./.github/actions/sast_ruby.yml@master
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby versions
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false
+
+      - name: Install Rubocop
+        run: |
+          gem install rubocop-rails-omakase  -N
+          gem install rubocop-rspec  -N
+
+      - name: Run Rubocop
+        run: rubocop --lint
+
+  brakeman:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false
+
+      - name: Install Brakeman
+        run: gem install brakeman -N
+
+      - name: Run brakeman
+        run: brakeman --force
+
+  bearer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby versions
+        uses: ruby/setup-ruby@v1
+
+      - name: Bearer
+        uses: bearer/bearer-action@v2
