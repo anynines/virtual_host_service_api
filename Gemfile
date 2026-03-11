@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '3.1.3'
+ruby '3.3.10'
 
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.0.0'
 
 gem 'amqp'
 gem 'erubis'
@@ -12,14 +12,14 @@ gem 'listen'
 
 gem 'net-smtp'
 gem 'psych', '< 4'
-gem 'webrick', '~> 1.7'
+gem 'webrick'
 
 gem 'hashie'
 
 gem 'pg'
 
-gem 'nokogiri', '~> 1.18.4'
-gem 'rack', '~> 2.2.13'
+gem 'nokogiri'
+gem 'rack'
 
 group :test do
   gem 'byebug'
