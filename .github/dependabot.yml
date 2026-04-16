@@ -32,10 +32,8 @@ updates:
   - package-ecosystem: "bundler"
     directory: "/"
     registries: "*"
-    insecure-external-code-execution: allow
     schedule:
       interval: "daily"
     target-branch: "develop"
     labels:
-      - "Ruby dependencies"
-    
+      - "dependabot"
