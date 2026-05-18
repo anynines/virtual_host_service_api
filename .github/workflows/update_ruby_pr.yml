@@ -15,4 +15,4 @@ jobs:
   update:
     uses: anynines/int-gitops/.github/workflows/update_ruby.yml@master
     secrets:
-      token: ${{ secrets.GIT_TOKEN }}
+      token: ${{ secrets.GITHUB_TOKEN }}
