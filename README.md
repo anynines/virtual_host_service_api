@@ -1,5 +1,7 @@
 # Virtual Host Service
 
+Software bill of materials: [SBOM](bom.xml).
+
 ## Problems solved by this service
 
 To secure an URL with https it is necceary to setup a SSL certificate on the webserver. To setup a SSL certificate the configuration of the webserver has to be extended by a new VHost section. 
@@ -97,6 +99,5 @@ bundle exec rake db:test:prepare
 
 bundle exec rspec spec
 ```
-
 
 
