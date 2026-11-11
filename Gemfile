@@ -1,8 +1,15 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-ruby '3.3.10'
+ruby '3.4.12'
 
-gem 'rails', '~> 8.0.0'
+rails_version = '~> 8.1'
+gem 'actionpack', rails_version
+gem 'actionview', rails_version
+gem 'activemodel', rails_version
+gem 'activerecord', rails_version
+gem 'railties', rails_version
 
 gem 'amqp'
 gem 'erubis'
@@ -11,6 +18,7 @@ gem 'honeybadger'
 gem 'listen'
 
 gem 'net-smtp'
+gem 'observer'
 gem 'psych', '< 4'
 gem 'webrick'
 
